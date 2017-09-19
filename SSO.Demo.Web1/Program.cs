@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 
 namespace SSO.Demo.Web1
 {
@@ -14,22 +8,13 @@ namespace SSO.Demo.Web1
     {
         public static void Main(string[] args)
         {
-            /* var config = new ConfigurationBuilder()
-           .SetBasePath(Directory.GetCurrentDirectory())
-           .AddJsonFile("hosting.json", optional: true)
-                .Build();*/
-
-            BuildWebHost(args, null).Run();
+            BuildWebHost(args).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args, IConfigurationRoot config) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseKestrel()
-                 //.UseConfiguration(config)
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args).UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                 .UseIISIntegration()
-                 .UseStartup<Startup>()
-                 .UseApplicationInsights()
-                .Build();
+                .UseIISIntegration()
+                .UseStartup<Startup>().Build();
     }
 }
