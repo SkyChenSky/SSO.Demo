@@ -18,9 +18,9 @@ namespace SSO.Demo.Web1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddEntityFrameworkSqlServer().AddDbContext<SkyChenContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SqlServer")));
-
             services.AddMvc();
+
+            services.AddDbContext<SkyChenContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SkyChenDatabase")));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

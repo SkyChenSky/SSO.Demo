@@ -5,11 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="ScaffoldingReadMe.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Content Remove="wwwroot\Lib\bootstrap.js" />
+    <Content Remove="wwwroot\Lib\bootstrap.min.js" />
   </ItemGroup>
 
   <ItemGroup>

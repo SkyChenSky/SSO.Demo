@@ -1,0 +1,21 @@
+﻿@{
+    ViewData["Title"] = "用户列表";
+}
+@using SSO.Demo.Service
+@model List<User>
+<a href="/user/add">添加</a>
+<table>
+    <tr>
+        <td width="50px">ID</td>
+        <td width="50px">用户名</td>
+        <td width="50px">创建时间</td>
+    </tr>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.UserId</td>
+            <td>@user.UserName</td>
+            <td>@user.CreateDateTime</td>
+        </tr>
+    }
+</table>

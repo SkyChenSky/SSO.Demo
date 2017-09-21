@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace SSO.Demo.Web1.Controllers
+namespace SSO.Demo.Web2.Controllers
 {
     public class HomeController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult LogOn()
         {
             return View();
         }
