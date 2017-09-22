@@ -1,7 +1,26 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "登录";
 }
-
-<h2>Index</h2>
-
+@using SSO.Demo.Web1.Model
+@model LoginParams
+<form id="addForm" method="post" action="/Home/Login">
+    <table>
+        <tr>
+            <td>
+                用户名：
+            </td>
+            <td>
+                @Html.EditorFor(a => a.UserName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                密码：
+            </td>
+            <td>
+                @Html.EditorFor(a => a.Password)
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="登录" />
+</form>

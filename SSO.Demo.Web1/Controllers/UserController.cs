@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SSO.Demo.Service;
 using SSO.Demo.Web1.Model;
 
 namespace SSO.Demo.Web1.Controllers
 {
-    public class UserController : Controller
+    [Authorize]
+    public class UserController : BaseController
     {
         private readonly SkyChenContext _skyChenContext;
 
@@ -18,6 +20,7 @@ namespace SSO.Demo.Web1.Controllers
         public IActionResult Index()
         {
             var userList = _skyChenContext.User.ToList();
+
             return View(userList);
         }
 

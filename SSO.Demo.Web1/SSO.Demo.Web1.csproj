@@ -5,17 +5,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="FormsAuthTicketDataFormat.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\Lib\bootstrap.js" />
     <Content Remove="wwwroot\Lib\bootstrap.min.js" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\SSO.Demo.Service\SSO.Demo.Service.csproj" />
+    <ProjectReference Include="..\SSO.Demo.Toolkits\SSO.Demo.Toolkits.csproj" />
   </ItemGroup>
 
 </Project>
