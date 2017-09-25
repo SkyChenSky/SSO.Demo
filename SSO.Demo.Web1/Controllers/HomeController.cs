@@ -35,22 +35,7 @@ namespace SSO.Demo.Web1.Controllers
 
             if (loginSuccessUser != null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim("UserId",loginSuccessUser.UserId),
-                    new Claim(ClaimTypes.Name,loginSuccessUser.UserName)
-                };
-
-                var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Basic"));
-
-                HttpContext.SignInAsync(AuthenticationHelper.AuthenticationToken, userPrincipal, new AuthenticationProperties
-                {
-                    ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
-                    IsPersistent = false,
-                    AllowRefresh = true
-                });
-
-                HttpContext.Session.SetString(loginSuccessUser.UserId, loginSuccessUser.ToJson());
+                SignIn(loginSuccessUser);
 
                 return RedirectToAction("Index", "User");
             }
@@ -58,12 +43,35 @@ namespace SSO.Demo.Web1.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        private void SignIn(User loginSuccessUser)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim("UserId",loginSuccessUser.UserId),
+                new Claim(ClaimTypes.Name,loginSuccessUser.UserName),
+                new Claim("LoginDateTime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+                new Claim(ClaimTypes.UserData,loginSuccessUser.ToJson())
+            };
+
+            var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Basic"));
+
+            HttpContext.SignInAsync(AuthenticationHelper.AuthenticationToken, userPrincipal, new AuthenticationProperties
+            {
+                ExpiresUtc = DateTime.UtcNow.AddMinutes(20),
+                IsPersistent = false,
+                AllowRefresh = true
+            });
+        }
+
+        private void SignOut()
+        {
+            HttpContext.SignOutAsync(AuthenticationHelper.AuthenticationToken);
+        }
+
         [Authorize]
         public IActionResult Logout()
         {
-            HttpContext.SignOutAsync(AuthenticationHelper.AuthenticationToken);
-            var userId = HttpContext.User.Claims.FirstOrDefault(a => a.Type == "UserId")?.Value;
-            HttpContext.Session.GetString(userId);
+            SignOut();
             return RedirectToAction("Index", "Home");
         }
 

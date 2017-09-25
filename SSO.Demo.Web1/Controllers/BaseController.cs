@@ -1,16 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using SSO.Demo.Service;
+using SSO.Demo.Toolkits;
 
 namespace SSO.Demo.Web1.Controllers
 {
     public class BaseController : Controller
     {
-        public BaseController()
+
+        public User GetLoginUserInfo()
         {
-            ViewData["UserName"] = HttpContext?.User?.Identity?.Name;
+            return HttpContext.User.Claims.FirstOrDefault(a => a.Type.Contains("userdata"))?.Value.FromJson<User>();
         }
     }
 }
