@@ -1,9 +1,6 @@
 ﻿using System;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,7 +36,6 @@ namespace SSO.Demo.Web1
                     options.AccessDeniedPath = "/Account/AccessDenied";
                     options.SlidingExpiration = true;
                 });
-
 
             //注册数据库
             services.AddDbContext<SkyChenContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SkyChenDatabase")));

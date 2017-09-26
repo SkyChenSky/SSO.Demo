@@ -6,11 +6,35 @@
 
   <ItemGroup>
     <Compile Remove="FormsAuthTicketDataFormat.cs" />
+    <Compile Remove="Instrumentation\StaticHttpContext.cs" />
+    <Compile Remove="Instrumentation\StaticHttpContextExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="wwwroot\Lib\bootstrap.js" />
     <Content Remove="wwwroot\Lib\bootstrap.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\layui\font\iconfont.svg" />
+    <None Include="wwwroot\layui\layui.all.js" />
+    <None Include="wwwroot\layui\layui.js" />
+    <None Include="wwwroot\layui\lay\modules\carousel.js" />
+    <None Include="wwwroot\layui\lay\modules\code.js" />
+    <None Include="wwwroot\layui\lay\modules\element.js" />
+    <None Include="wwwroot\layui\lay\modules\flow.js" />
+    <None Include="wwwroot\layui\lay\modules\form.js" />
+    <None Include="wwwroot\layui\lay\modules\jquery.js" />
+    <None Include="wwwroot\layui\lay\modules\laydate.js" />
+    <None Include="wwwroot\layui\lay\modules\layedit.js" />
+    <None Include="wwwroot\layui\lay\modules\layer.js" />
+    <None Include="wwwroot\layui\lay\modules\laypage.js" />
+    <None Include="wwwroot\layui\lay\modules\laytpl.js" />
+    <None Include="wwwroot\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\layui\lay\modules\table.js" />
+    <None Include="wwwroot\layui\lay\modules\tree.js" />
+    <None Include="wwwroot\layui\lay\modules\upload.js" />
+    <None Include="wwwroot\layui\lay\modules\util.js" />
   </ItemGroup>
 
   <ItemGroup>

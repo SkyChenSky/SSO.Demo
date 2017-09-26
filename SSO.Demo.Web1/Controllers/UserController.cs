@@ -27,7 +27,6 @@ namespace SSO.Demo.Web1.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            ViewData["UserName"] = GetLoginUserInfo().UserName;
             return View();
         }
 

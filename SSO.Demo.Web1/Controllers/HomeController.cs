@@ -37,10 +37,10 @@ namespace SSO.Demo.Web1.Controllers
             {
                 SignIn(loginSuccessUser);
 
-                return RedirectToAction("Index", "User");
+                return Json(true);
             }
 
-            return RedirectToAction("Index", "Home");
+            return Json(false);
         }
 
         private void SignIn(User loginSuccessUser)
