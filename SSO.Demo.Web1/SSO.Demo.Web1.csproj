@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="FormsAuthTicketDataFormat.cs" />
+    <Compile Remove="Instrumentation\HttpContextExtension.cs" />
     <Compile Remove="Instrumentation\StaticHttpContext.cs" />
     <Compile Remove="Instrumentation\StaticHttpContextExtensions.cs" />
   </ItemGroup>
@@ -46,6 +47,10 @@
   <ItemGroup>
     <ProjectReference Include="..\SSO.Demo.Service\SSO.Demo.Service.csproj" />
     <ProjectReference Include="..\SSO.Demo.Toolkits\SSO.Demo.Toolkits.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Instrumentation\" />
   </ItemGroup>
 
 </Project>

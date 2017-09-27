@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SSO.Demo.Web1.Model
+namespace SSO.Demo.Web1.Model.Home
 {
-    public class UserParams
+    public class LoginParams
     {
-        [Required, StringLength(16)]
+        [Required]
         public string UserName { get; set; }
 
-        [Required, StringLength(32)]
+        [Required]
         public string Password { get; set; }
     }
 }

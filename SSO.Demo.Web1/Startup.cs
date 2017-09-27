@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SSO.Demo.Service;
 using SSO.Demo.Toolkits;
+using SSO.Demo.Toolkits.Attribute;
+using SSO.Demo.Toolkits.Helper;
 
 namespace SSO.Demo.Web1
 {
@@ -20,7 +22,10 @@ namespace SSO.Demo.Web1
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new GobalMvcModelValidAttribute());
+            });
 
             services.AddSession();
 

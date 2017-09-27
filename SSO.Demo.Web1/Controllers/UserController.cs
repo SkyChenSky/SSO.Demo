@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SSO.Demo.Service;
-using SSO.Demo.Web1.Model;
+using SSO.Demo.Web1.Model.User;
 
 namespace SSO.Demo.Web1.Controllers
 {

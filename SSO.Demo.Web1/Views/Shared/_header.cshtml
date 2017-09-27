@@ -1,5 +1,9 @@
-﻿@using SSO.Demo.Web1.Instrumentation
-<div class="layui-logo">layui 后台布局</div>
+﻿@using SSO.Demo.Toolkits
+@using SSO.Demo.Toolkits.Extension
+@{
+    var loginUserData = Context.LoginUserData();
+}
+<div class="layui-logo">陈珙超级管理系统</div>
 <!-- 头部区域（可配合layui已有的水平导航） -->
 <ul class="layui-nav layui-layout-left">
     <li class="layui-nav-item"><a href="">控制台</a></li>
@@ -15,12 +19,12 @@
     </li>
 </ul>
 <ul class="layui-nav layui-layout-right">
-    @if (Context.UserData() != null)
+    @if (loginUserData != null)
     {
         <li class="layui-nav-item">
             <a href="javascript:;">
                 <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                @Context.UserData().UserName
+                @loginUserData.UserName
             </a>
             <dl class="layui-nav-child">
                 <dd><a href="">基本资料</a></dd>

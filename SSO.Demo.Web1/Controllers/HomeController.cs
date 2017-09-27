@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Microsoft.ApplicationInsights.Extensibility.Implementation;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SSO.Demo.Service;
-using SSO.Demo.Toolkits;
-using SSO.Demo.Web1.Model;
+using SSO.Demo.Toolkits.Extension;
+using SSO.Demo.Toolkits.Helper;
+using SSO.Demo.Toolkits.Model;
+using SSO.Demo.Web1.Model.Home;
 
 namespace SSO.Demo.Web1.Controllers
 {
@@ -35,22 +35,34 @@ namespace SSO.Demo.Web1.Controllers
 
             if (loginSuccessUser != null)
             {
-                SignIn(loginSuccessUser);
+                SignIn(new LoginUser { LoginDateTime = DateTime.Now, UserId = loginSuccessUser.UserId, UserName = loginSuccessUser.UserName });
 
-                return Json(true);
+                return Json(ServiceResult.IsSuccess("登录成功"));
             }
 
-            return Json(false);
+            return Json(ServiceResult.IsFailed("帐号或密码错误"));
         }
 
-        private void SignIn(User loginSuccessUser)
+        [Authorize]
+        public IActionResult Logout()
+        {
+            SignOut();
+            return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        #region 私有方法
+        private void SignIn(LoginUser loginUser)
         {
             var claims = new List<Claim>
             {
-                new Claim("UserId",loginSuccessUser.UserId),
-                new Claim(ClaimTypes.Name,loginSuccessUser.UserName),
-                new Claim("LoginDateTime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
-                new Claim(ClaimTypes.UserData,loginSuccessUser.ToJson())
+                new Claim(ClaimTypes.Name,loginUser.UserId),
+                new Claim(ClaimTypes.UserData,loginUser.ToJson()),
+                new Claim("Salt",Guid.NewGuid().ToString("N"))
             };
 
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, "Basic"));
@@ -67,17 +79,6 @@ namespace SSO.Demo.Web1.Controllers
         {
             HttpContext.SignOutAsync(AuthenticationHelper.AuthenticationToken);
         }
-
-        [Authorize]
-        public IActionResult Logout()
-        {
-            SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult Error()
-        {
-            return View();
-        }
+        #endregion
     }
 }

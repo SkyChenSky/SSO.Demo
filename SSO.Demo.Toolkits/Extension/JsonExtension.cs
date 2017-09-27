@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace SSO.Demo.Toolkits
+namespace SSO.Demo.Toolkits.Extension
 {
     public static class JsonExtension
     {
