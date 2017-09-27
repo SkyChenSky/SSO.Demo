@@ -24,6 +24,12 @@ namespace SSO.Demo.Web1.Controllers
             return View(userList);
         }
 
+        public IActionResult List()
+        {
+            var userList = _skyChenContext.User.ToList();
+            return Json(new{ data = userList, count = userList.Count, code = 0,msg = "" } );
+        }
+
         [HttpGet]
         public IActionResult Add()
         {

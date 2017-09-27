@@ -3,19 +3,31 @@
 }
 @using SSO.Demo.Service
 @model List<User>
-<a href="/user/add">添加</a>
-<table>
+
+<div class="demoTable">
+    搜索ID：
+    <div class="layui-inline">
+        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+    </div>
+    <button class="layui-btn" data-type="reload">搜索</button>
+</div>
+ 
+<table class="layui-table" lay-data="{height:315, url:'/user/list', page:true, id:'test'}" lay-filter="test">
+    <thead>
     <tr>
-        <td width="50px">ID</td>
-        <td width="50px">用户名</td>
-        <td width="50px">创建时间</td>
+        <th lay-data="{field:'userId', checkbox: true}"></th>
+        <th lay-data="{field:'userId', width:120}">主键</th>
+        <th lay-data="{field:'userName', width:120}">用户名</th>
+        <th lay-data="{field:'createDateTime', width:200}">创建时间</th>
     </tr>
-    @foreach (var user in Model)
-    {
-        <tr>
-            <td>@user.UserId</td>
-            <td>@user.UserName</td>
-            <td>@user.CreateDateTime</td>
-        </tr>
-    }
+    </thead>
 </table>
+       
+@section Scripts{
+    <script>
+        layui.use('table', function(){
+            var table = layui.table;
+  
+        });
+    </script>
+}     

@@ -1,7 +1,6 @@
 ﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Model;
 
 namespace SSO.Demo.Toolkits.Attribute
@@ -26,11 +25,8 @@ namespace SSO.Demo.Toolkits.Attribute
                         builder.Append(error.ErrorMessage);
                     }
                 }
-                context.Result = new ContentResult
-                {
-                    Content = ServiceResult.IsFailed(builder.ToString()).ToJson(),
-                    ContentType = "application/json"
-                };
+                context.Result = new JsonResult(ServiceResult.IsFailed(builder.ToString()));
+
             }
 
             base.OnActionExecuting(context);

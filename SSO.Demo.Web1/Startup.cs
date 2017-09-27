@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SSO.Demo.Service;
-using SSO.Demo.Toolkits;
 using SSO.Demo.Toolkits.Attribute;
 using SSO.Demo.Toolkits.Helper;
 
@@ -24,6 +23,7 @@ namespace SSO.Demo.Web1
         {
             services.AddMvc(options =>
             {
+                options.Filters.Add(new GolbalExceptionAttribute());
                 options.Filters.Add(new GobalMvcModelValidAttribute());
             });
 

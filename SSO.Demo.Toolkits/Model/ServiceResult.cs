@@ -1,6 +1,5 @@
 ﻿using SSO.Demo.Toolkits.Extension;
 using System;
-using Newtonsoft.Json;
 
 namespace SSO.Demo.Toolkits.Model
 {
@@ -18,7 +17,6 @@ namespace SSO.Demo.Toolkits.Model
         /// <summary>
         /// 响应信息
         /// </summary>
-        [JsonProperty("message")]
         public string Message
         {
             set => _message = value;
@@ -28,13 +26,11 @@ namespace SSO.Demo.Toolkits.Model
         /// <summary>
         /// 异常
         /// </summary>
-        [JsonProperty("exception")]
         public Exception Exception { get; set; }
 
         /// <summary>
         /// 数据
         /// </summary>
-        [JsonProperty("data")]
         public object Data { get; set; }
 
         public ServiceResult()
@@ -70,19 +66,16 @@ namespace SSO.Demo.Toolkits.Model
         /// <summary>
         /// 成功
         /// </summary>
-        [JsonProperty("success")]
         public bool Success => ResultCode == ServiceResultCode.Succeed;
 
         /// <summary>
         /// 错误
         /// </summary>
-        [JsonProperty("error")]
         public bool Error => ResultCode == ServiceResultCode.Error;
 
         /// <summary>
         /// 失败
         /// </summary>
-        [JsonProperty("failed")]
         public bool Failed => ResultCode == ServiceResultCode.Error || ResultCode == ServiceResultCode.Failed;
 
         /// <summary>

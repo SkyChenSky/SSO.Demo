@@ -6,5 +6,11 @@
         {
             return string.IsNullOrEmpty(inputStr);
         }
+
+        public static string ValueOfAppsettings(this string inputStr)
+        {
+            // Configuration
+            return "";
+        }
     }
 }
