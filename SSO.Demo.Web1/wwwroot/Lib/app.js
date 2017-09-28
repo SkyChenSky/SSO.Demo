@@ -2,6 +2,20 @@
     return this.replace(/[^\x00-\xff]/gi, "--").length;
 }
 
+jQuery.fn.extend({
+    formSerialize : function () {
+        var data = {};
+        $('input,select,textarea', this).each(function () {
+            var element = $(this);
+            if (!element.prop("disabled")) {
+                var key = element.attr('name');
+                data[key] = element.val(); 
+            }          
+        });
+        return data;
+    }
+});
+
 $.validator.addMethod("charlength", function (value, element, params) {
     if (this.optional(element)) {
         return true;

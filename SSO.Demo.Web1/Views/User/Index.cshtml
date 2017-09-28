@@ -4,30 +4,39 @@
 @using SSO.Demo.Service
 @model List<User>
 
-<div class="demoTable">
-    搜索ID：
+<div class="userSearchForm">
     <div class="layui-inline">
-        <input class="layui-input" name="id" id="demoReload" autocomplete="off">
+        <input class="layui-input" placeholder="主键" name="userId"   autocomplete="off">
+    </div>
+    <div class="layui-inline">
+        <input class="layui-input" placeholder="用户名" name="userName" autocomplete="off">
     </div>
     <button class="layui-btn" data-type="reload">搜索</button>
 </div>
- 
-<table class="layui-table" lay-data="{height:315, url:'/user/list', page:true, id:'test'}" lay-filter="test">
+
+<table class="layui-table" lay-data="{height:'full-335', url:'/user/list', page:true, id:'userlisttable'}" lay-filter="test">
     <thead>
-    <tr>
-        <th lay-data="{field:'userId', checkbox: true}"></th>
-        <th lay-data="{field:'userId', width:120}">主键</th>
-        <th lay-data="{field:'userName', width:120}">用户名</th>
-        <th lay-data="{field:'createDateTime', width:200}">创建时间</th>
-    </tr>
+        <tr>
+            <th lay-data="{field:'userId', checkbox: true}"></th>
+            <th lay-data="{field:'userId', width:120}">主键</th>
+            <th lay-data="{field:'userName', width:120}">用户名</th>
+            <th lay-data="{field:'createDateTime', width:200}">创建时间</th>
+        </tr>
     </thead>
 </table>
-       
+
 @section Scripts{
     <script>
-        layui.use('table', function(){
+        layui.use('table', function () {
             var table = layui.table;
-  
+            var $ = layui.$;
+
+            $('.userSearchForm .layui-btn').on('click', function () {
+                var formParams = $(".userSearchForm").formSerialize();
+                table.reload('userlisttable', {
+                    where: formParams
+                });
+            });
         });
     </script>
-}     
+}

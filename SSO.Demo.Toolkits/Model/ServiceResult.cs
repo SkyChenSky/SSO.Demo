@@ -1,5 +1,5 @@
-﻿using SSO.Demo.Toolkits.Extension;
-using System;
+﻿using System;
+using SSO.Demo.Toolkits.Extension;
 
 namespace SSO.Demo.Toolkits.Model
 {
@@ -197,6 +197,6 @@ namespace SSO.Demo.Toolkits.Model
     {
         Error = -1,
         Succeed = 0,
-        Failed = 1,
+        Failed = 1
     }
 }
