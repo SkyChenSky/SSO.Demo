@@ -1,20 +1,22 @@
 ﻿@{
     ViewData["Title"] = "用户列表";
 }
-@using SSO.Demo.Service
-@model List<User>
+@using SSO.Demo.Toolkits.Model
+@using SSO.Demo.Web1.Model.User
+@model PageListParam<ListParam>
 
-<div class="userSearchForm">
+<form id="form_userSearch">
     <div class="layui-inline">
-        <input class="layui-input" placeholder="主键" name="userId"   autocomplete="off">
+        <input class="layui-input" placeholder="主键" name="Params.UserId" autocomplete="off">
     </div>
     <div class="layui-inline">
-        <input class="layui-input" placeholder="用户名" name="userName" autocomplete="off">
+        <input class="layui-input" placeholder="用户名" name="Params.UserName" autocomplete="off">
     </div>
-    <button class="layui-btn" data-type="reload">搜索</button>
-</div>
+    <input id="btn_search" class="layui-btn" value="搜索" type ="button" />
+    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+</form>
 
-<table class="layui-table" lay-data="{height:'full-335', url:'/user/list', page:true, id:'userlisttable'}" lay-filter="test">
+<table class="layui-table" lay-data="{height:'full-335', url:'/user/list', page:true, id:'table_userlist'}" lay-filter="user-container">
     <thead>
         <tr>
             <th lay-data="{field:'userId', checkbox: true}"></th>
@@ -31,9 +33,10 @@
             var table = layui.table;
             var $ = layui.$;
 
-            $('.userSearchForm .layui-btn').on('click', function () {
-                var formParams = $(".userSearchForm").formSerialize();
-                table.reload('userlisttable', {
+            $('#form_userSearch #btn_search').on('click', function () {
+                var formParams = $("#form_userSearch").formSerialize();
+
+                table.reload('table_userlist', {
                     where: formParams
                 });
             });

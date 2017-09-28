@@ -21,9 +21,7 @@ namespace SSO.Demo.Web1.Controllers
 
         public IActionResult Index()
         {
-            var userList = _skyChenContext.User.ToList();
-
-            return View(userList);
+            return View();
         }
 
         public IActionResult List(PageListParam<ListParam> pageListParam)

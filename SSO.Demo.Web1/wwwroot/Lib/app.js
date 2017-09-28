@@ -7,7 +7,7 @@ jQuery.fn.extend({
         var data = {};
         $('input,select,textarea', this).each(function () {
             var element = $(this);
-            if (!element.prop("disabled")) {
+            if (!element.prop("disabled") && element.attr('name')) {
                 var key = element.attr('name');
                 data[key] = element.val(); 
             }          
