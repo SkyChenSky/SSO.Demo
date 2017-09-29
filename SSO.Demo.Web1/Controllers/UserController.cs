@@ -26,7 +26,6 @@ namespace SSO.Demo.Web1.Controllers
 
         public IActionResult List(PageListParam<ListParam> pageListParam)
         {
-
             var userQueryable = _skyChenContext.User.Where(a => true);
             var listParam = pageListParam.Params;
 

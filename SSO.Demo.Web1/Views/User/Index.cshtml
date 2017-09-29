@@ -12,7 +12,13 @@
     <div class="layui-inline">
         <input class="layui-input" placeholder="用户名" name="Params.UserName" autocomplete="off">
     </div>
-    <input id="btn_search" class="layui-btn" value="搜索" type ="button" />
+    <div class="layui-inline">
+        <input class="layui-input" id="Params_BeganCreateDateTime" name="Params.BeganCreateDateTime" placeholder="开始创建时间" type="text">
+    </div>
+    <div class="layui-inline">
+        <input class="layui-input" id="Params_EndCreateDateTime" name="Params.EndCreateDateTime" placeholder="结束创建时间" type="text">
+    </div>
+    <input id="btn_search" class="layui-btn" value="搜索" type="button" />
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
 </form>
 
@@ -39,6 +45,26 @@
                 table.reload('table_userlist', {
                     where: formParams
                 });
+            });
+        });
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#Params_BeganCreateDateTime',
+                type: 'datetime'
+            });
+        });
+
+        layui.use('laydate', function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem: '#Params_EndCreateDateTime',
+                type: 'datetime'
             });
         });
     </script>
