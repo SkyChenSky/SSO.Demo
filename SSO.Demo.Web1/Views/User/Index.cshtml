@@ -4,7 +4,7 @@
 @using SSO.Demo.Toolkits.Model
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
-
+    
 <form id="form_userSearch">
     <div class="layui-inline">
         <input class="layui-input" placeholder="主键" name="Params.UserId" autocomplete="off">
@@ -51,7 +51,6 @@
         layui.use('laydate', function () {
             var laydate = layui.laydate;
 
-            //执行一个laydate实例
             laydate.render({
                 elem: '#Params_BeganCreateDateTime',
                 type: 'datetime'
@@ -61,11 +60,22 @@
         layui.use('laydate', function () {
             var laydate = layui.laydate;
 
-            //执行一个laydate实例
             laydate.render({
                 elem: '#Params_EndCreateDateTime',
                 type: 'datetime'
             });
         });
+        layui.use('layer', function(){ 
+            var $ = layui.jquery, layer = layui.layer; 
+
+            //页面层
+            layer.open({
+                type: 1,
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+                content: '/user/index'
+            });
+        });
+        
     </script>
 }
