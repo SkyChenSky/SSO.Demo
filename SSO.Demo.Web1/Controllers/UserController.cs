@@ -68,5 +68,19 @@ namespace SSO.Demo.Web1.Controllers
 
             return View("Index");
         }
+
+        [HttpPost]
+        public IActionResult Delete(string userId)
+        {
+            var user = _skyChenContext.User.SingleOrDefault(a => a.UserId == userId);
+
+            if (user == null)
+                return Json(ServiceResult.IsFailed("删除失败"));
+
+            _skyChenContext.User.Remove(user);
+            var reuslt = _skyChenContext.SaveChanges() > 0;
+
+            return Json(reuslt ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
+        }
     }
 }
