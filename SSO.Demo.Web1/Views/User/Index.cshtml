@@ -1,10 +1,12 @@
 ﻿@{
     ViewData["Title"] = "用户列表";
 }
+@using SSO.Demo.Toolkits.Extension
 @using SSO.Demo.Toolkits.Model
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
 
+@Html.LayerUiDateTimePickerFor(a=>a.Params.EndCreateDateTime)
 <form id="form_userSearch">
     <div class="layui-inline">
         <input class="layui-input" placeholder="主键" name="Params.UserId" autocomplete="off">
