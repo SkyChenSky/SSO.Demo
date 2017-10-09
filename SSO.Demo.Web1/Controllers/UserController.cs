@@ -21,7 +21,7 @@ namespace SSO.Demo.Web1.Controllers
 
         public IActionResult Index()
         {
-            return View(new PageListParam<ListParam>{ Params = new ListParam{ EndCreateDateTime = new DateTime(2013)} });
+            return View();
         }
 
         public IActionResult List(PageListParam<ListParam> pageListParam)

@@ -19,11 +19,11 @@ namespace SSO.Demo.Toolkits.Extension
         /// <param name="htmlHelper"></param>
         /// <param name="expression"></param>
         /// <returns></returns>
-        private static KeyValuePair<string, string> GetExpressionValue<TModel, TProperty>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+        private static KeyValuePair<string, object> GetExpressionValue<TModel, TProperty>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
             var key = ExpressionHelper.GetExpressionText(expression);
-            TProperty value = htmlHelper.ViewData.Model == null ? default(TProperty) : MemberAccessor.Process(expression, htmlHelper.ViewData.Model);
-            return new KeyValuePair<string, string>(key, Convert.ToString(value));
+            var value = ExpressionMetadataProvider.FromLambdaExpression(expression, htmlHelper.ViewData, htmlHelper.MetadataProvider);
+            return new KeyValuePair<string, object>(key, value.Model);
         }
 
         public static IHtmlContent LayerUiDateTimePicker(this IHtmlHelper helper, string name, object value,
@@ -36,19 +36,18 @@ namespace SSO.Demo.Toolkits.Extension
 
             var requireStr = require ? "require" : "";
 
-            sb.AppendFormat(
-                @"<input class='layui-input' id='{0}' name='{1}' value = '{2}' placeholder='{3}' type='text' {4}>", id,
-                name, value, placeholder, requireStr);
-            sb.AppendFormat(@"<script>
-            layui.use('laydate',
-            function() {{
-                var laydate = layui.laydate;
+            sb.AppendFormat(@"<input class='layui-input' id='{0}' name='{1}' value = '{2}' placeholder='{3}' type='text' {4}>", id, name, value, placeholder, requireStr);
+            sb.AppendFormat(@"<script type='text/javascript'>
+             layui.use('laydate',
+                    function () {{
+                        var laydate = layui.laydate;
 
-                laydate.render({{
-                    elem: '#{0}',
-                    type: '{1}'
-                }});
-            }});</script>", id, layerUiDateTimeType.ToString());
+                        laydate.render({{
+                            elem: '#{0}',
+                            type: '{1}'
+                        }});
+                    }});
+            </script>", id, layerUiDateTimeType.ToString());
 
             return new HtmlString(sb.ToString());
         }

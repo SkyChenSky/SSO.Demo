@@ -7,7 +7,6 @@
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
 
-@Html.LayerUiDateTimePickerFor(a => a.Params.EndCreateDateTime)
 <form id="form_userSearch">
     <div class="layui-inline">
         <input class="layui-input" placeholder="主键" name="Params.UserId" autocomplete="off">
@@ -16,10 +15,10 @@
         <input class="layui-input" placeholder="用户名" name="Params.UserName" autocomplete="off">
     </div>
     <div class="layui-inline">
-        <input class="layui-input" id="Params_BeganCreateDateTime" name="Params.BeganCreateDateTime" placeholder="开始创建时间" type="text">
+        @Html.LayerUiDateTimePickerFor(a => a.Params.BeganCreateDateTime, "开始创建时间")
     </div>
     <div class="layui-inline">
-        <input class="layui-input" id="Params_EndCreateDateTime" name="Params.EndCreateDateTime" placeholder="结束创建时间" type="text">
+        @Html.LayerUiDateTimePickerFor(a => a.Params.EndCreateDateTime, "结束创建时间")
     </div>
     <input id="btn_search" class="layui-btn" value="搜索" type="button" />
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -105,26 +104,6 @@
                             editEvent();
                         }
                     });
-            });
-
-        layui.use('laydate',
-            function () {
-                var laydate = layui.laydate;
-
-                laydate.render({
-                    elem: '#Params_BeganCreateDateTime',
-                    type: 'datetime'
-                });
-            });
-
-        layui.use('laydate',
-            function () {
-                var laydate = layui.laydate;
-
-                laydate.render({
-                    elem: '#Params_EndCreateDateTime',
-                    type: 'datetime'
-                });
             });
     </script>
 }
