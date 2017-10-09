@@ -36,8 +36,8 @@ namespace SSO.Demo.Web1
                     options.Cookie.HttpOnly = true;
                     options.Cookie.Expiration = DateTime.Now.AddMinutes(30).TimeOfDay;
                     options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
-                    options.LoginPath = "/Home/Index";
-                    options.LogoutPath = "/Home/Logout";
+                    options.LoginPath = "/Account/Login";
+                    options.LogoutPath = "/Account/Logout";
                     options.AccessDeniedPath = "/Account/AccessDenied";
                     options.SlidingExpiration = true;
                 });
@@ -63,7 +63,7 @@ namespace SSO.Demo.Web1
             {
                 routes.MapRoute(
                     "default",
-                    "{controller=Home}/{action=Index}/{id?}");
+                    "{controller=Account}/{action=Login}/{id?}");
             });
         }
     }

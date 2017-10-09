@@ -8,65 +8,49 @@
     <link href="~/layui/css/layui.css" rel="stylesheet" />
 </head>
 <body class="layui-layout-body">
-    <div class="layui-layout layui-layout-admin">
-        <div class="layui-header">
-            @Html.Partial("~/Views/Shared/_Header.cshtml")
-        </div>
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        @Html.Partial("~/Views/Shared/_Header.cshtml")
+    </div>
 
-        <div class="layui-side layui-bg-black">
-            <div class="layui-side-scroll">
-                @Html.Partial("~/Views/Shared/_Scroll.cshtml")
-            </div>
-        </div>
-
-        <div class="layui-body">
-            <div class="layui-tab layui-tab-brief" lay-allowClose="true" lay-filter="docDemoTabBrief">
-                <ul class="layui-tab-title">
-                    <li class="layui-this">网站设置</li>
-                    <li>用户管理</li>
-                    <li>权限分配</li>
-                    <li>商品管理</li>
-                    <li>订单管理</li>
-                </ul>
-                <div class="layui-tab-content" style="height: 100px;">
-                    <div class="layui-tab-item layui-show">@RenderBody()</div>
-                    <div class="layui-tab-item">内容2</div>
-                    <div class="layui-tab-item">内容3</div>
-                    <div class="layui-tab-item">内容4</div>
-                    <div class="layui-tab-item">内容5</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="layui-footer">
-            @Html.Partial("~/Views/Shared/_Footer.cshtml")
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            @Html.Partial("~/Views/Shared/_Scroll.cshtml")
         </div>
     </div>
 
-    <script src="~/Lib/jquery-1.10.2.js"></script>
-    <script src="~/Lib/jquery.form.js"></script>
-    <script src="~/Lib/jquery.validate.js"></script>
-    <script src="~/Lib/modernizr-2.6.2.js"></script>
-    <script src="~/Lib/app.js"></script>
-    <script src="~/layui/layui.js"></script>
+    <div class="layui-body">
+        @RenderBody()
+    </div>
 
-    <script>
-        layui.use('element',
-            function () {
-                var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+    <div class="layui-footer">
+        @Html.Partial("~/Views/Shared/_Footer.cshtml")
+    </div>
+</div>
 
-                //Hash地址的定位
-                var layid = location.hash.replace(/^#test=/, '');
-                element.tabChange('test', layid);
+<script src="~/Lib/jquery-1.10.2.js"></script>
+<script src="~/Lib/jquery.form.js"></script>
+<script src="~/Lib/jquery.validate.js"></script>
+<script src="~/Lib/modernizr-2.6.2.js"></script>
+<script src="~/Lib/app.js"></script>
+<script src="~/layui/layui.js"></script>
 
-                element.on('tab(test)',
-                    function (elem) {
-                        location.hash = 'test=' + $(this).attr('lay-id');
-                    });
+<script>
+    layui.use('element',
+        function () {
+            var $ = layui.jquery, element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
 
-            });
-    </script>
+            //Hash地址的定位
+            var layid = location.hash.replace(/^#test=/, '');
+            element.tabChange('test', layid);
 
-    @RenderSection("Scripts", false)
+            element.on('tab(test)',
+                function (elem) {
+                    location.hash = 'test=' + $(this).attr('lay-id');
+                });
+        });
+</script>
+
+@RenderSection("Scripts", false)
 </body>
 </html>

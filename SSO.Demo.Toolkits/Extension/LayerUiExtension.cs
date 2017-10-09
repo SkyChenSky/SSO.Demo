@@ -1,14 +1,31 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using SSO.Demo.Toolkits.Helper;
 
 namespace SSO.Demo.Toolkits.Extension
 {
     public static class LayerUiExtension
     {
+        /// <summary>
+        /// 返回属性的名称和值
+        /// </summary>
+        /// <typeparam name="TModel"></typeparam>
+        /// <typeparam name="TProperty"></typeparam>
+        /// <param name="htmlHelper"></param>
+        /// <param name="expression"></param>
+        /// <returns></returns>
+        private static KeyValuePair<string, string> GetExpressionValue<TModel, TProperty>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+        {
+            var key = ExpressionHelper.GetExpressionText(expression);
+            TProperty value = htmlHelper.ViewData.Model == null ? default(TProperty) : MemberAccessor.Process(expression, htmlHelper.ViewData.Model);
+            return new KeyValuePair<string, string>(key, Convert.ToString(value));
+        }
+
         public static IHtmlContent LayerUiDateTimePicker(this IHtmlHelper helper, string name, object value,
             string placeholder = "", LayerUiDateTimeType layerUiDateTimeType = LayerUiDateTimeType.datetime,
             bool require = false)
@@ -40,7 +57,9 @@ namespace SSO.Demo.Toolkits.Extension
             Expression<Func<TModel, TResult>> expression,
             string placeholder = "", LayerUiDateTimeType layerUiDateTimeType = LayerUiDateTimeType.datetime)
         {
-            return helper.LayerUiDateTimePicker("", "", placeholder, layerUiDateTimeType);
+            var modelProperty = helper.GetExpressionValue(expression);
+
+            return helper.LayerUiDateTimePicker(modelProperty.Key, modelProperty.Value, placeholder, layerUiDateTimeType);
         }
 
         public static void weqwe()

@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewData["Title"]</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+    <script src="~/Lib/jquery-1.10.2.js"></script>
+    <script src="~/Lib/jquery.form.js"></script>
+    <script src="~/Lib/jquery.validate.js"></script>
+    <script src="~/Lib/modernizr-2.6.2.js"></script>
+    <script src="~/Lib/app.js"></script>
+    <script src="~/layui/layui.js"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>
+
