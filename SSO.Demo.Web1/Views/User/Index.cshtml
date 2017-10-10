@@ -3,22 +3,21 @@
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
 }
 @using SSO.Demo.Toolkits.Extension
-@using SSO.Demo.Toolkits.Model
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
 
 <form id="form_userSearch">
     <div class="layui-inline">
-        <input class="layui-input" placeholder="主键" name="Params.UserId" autocomplete="off">
+        @Html.LayerUiEditorFor(a => a.Params.UserId, "主键")
     </div>
     <div class="layui-inline">
-        <input class="layui-input" placeholder="用户名" name="Params.UserName" autocomplete="off">
+        @Html.LayerUiEditorFor(a => a.Params.UserName, "用户名")
     </div>
     <div class="layui-inline">
         @Html.LayerUiDateTimePickerFor(a => a.Params.BeganCreateDateTime, "开始创建时间")
     </div>
     <div class="layui-inline">
-        @Html.LayerUiDateTimePickerFor(a => a.Params.EndCreateDateTime, "结束创建时间")
+        <datetimepicker asp-for="Params.EndCreateDateTime" placeholder="结束创建时间" />
     </div>
     <input id="btn_search" class="layui-btn" value="搜索" type="button" />
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
@@ -43,7 +42,7 @@
 
 @section Scripts{
     <script>
-        layui.use('table',
+        layui.use(['table'],
             function () {
                 var table = layui.table;
                 var $ = layui.$;
@@ -79,18 +78,8 @@
                 }
 
                 //编辑
-                var editEvent = function () {
-                    var layerIndex = layer.open({
-                        type: 2,
-                        skin: 'layui-layer-rim', //加上边框
-                        area: ['800px', '800px'], //宽高
-                        content: '/user/add',
-                        title: '编辑用户'
-                    });
-
-                    var index = layer.getFrameIndex(layerIndex); //获取窗口索引
-
-                    layer.iframeAuto(index);
+                var editEvent = function (userId) {
+                    $.openLayer('/user/add', { userId: userId }, '编辑用户');
                 }
 
                 //监听表格工具栏
@@ -101,7 +90,7 @@
                         if (obj.event === 'del') {
                             deleteEvent(userId);
                         } else if (obj.event === 'edit') {
-                            editEvent();
+                            editEvent(userId);
                         }
                     });
             });

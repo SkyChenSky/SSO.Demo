@@ -47,8 +47,23 @@ namespace SSO.Demo.Web1.Controllers
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public IActionResult Add(string userId)
         {
+            if (!userId.IsNullOrEmpty())
+            {
+                var user = _skyChenContext.User.FirstOrDefault(a => a.UserId == userId);
+                if (user != null)
+                {
+                    var viewModel = new UserParams
+                    {
+                        UserId = user.UserId,
+                        UserName = user.UserName,
+                        Password = user.Password
+                    };
+                    return View(viewModel);
+                }
+            }
+
             return View();
         }
 

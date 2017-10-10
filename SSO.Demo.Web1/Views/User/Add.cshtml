@@ -1,24 +1,27 @@
 ﻿@{
     ViewData["Title"] = "添加用户";
-    Layout = "~/Views/Shared/_FormLayout.cshtml";
+    Layout = null;
 }
+@using SSO.Demo.Toolkits.Extension
 @using SSO.Demo.Web1.Model.User
+@using InputType = SSO.Demo.Toolkits.Extension.InputType
 @model UserParams
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
     <legend>添加用户</legend>
 </fieldset>
 <div class="layui-main">
     <form class="layui-form layui-form-pane" method="post" action="/User/Add">
+        @Html.HiddenFor(a => a.UserId)
         <div class="layui-form-item">
             <label class="layui-form-label">用户名</label>
             <div class="layui-input-inline">
-                <input name="username" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input" type="text">
+                @Html.LayerUiEditorFor(a => a.UserName, "请输入用户名", require: true)
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">密码</label>
             <div class="layui-input-inline">
-                <input name="username" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" type="password">
+                @Html.LayerUiEditorFor(a => a.Password, "请输入密码", InputType.password, true)
             </div>
         </div>
         <div class="layui-form-item">
@@ -46,25 +49,23 @@
     </form>
 </div>
 
-@section Scripts
-    {
-    <script>
-        layui.use(['form'], function () {
-            var form = layui.form, layer = layui.layer;
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, layer = layui.layer;
 
-            //var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+        //var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
 
-            //parent.layer.iframeAuto(index);
+        //parent.layer.iframeAuto(index);
 
-            //监听提交
-            form.on('submit(demo1)', function (data) {
-                layer.alert(JSON.stringify(data.field),
-                    {
-                        title: '最终的提交信息'
-                    });
-                return false;
-            });
-
+        //监听提交
+        form.on('submit(demo1)', function (data) {
+            layer.alert(JSON.stringify(data.field),
+                {
+                    title: '最终的提交信息'
+                });
+            return false;
         });
-    </script>
-}
+
+        form.render();
+    });
+</script>

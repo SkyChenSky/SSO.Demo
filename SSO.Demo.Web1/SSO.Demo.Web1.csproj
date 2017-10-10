@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Compile Remove="FormsAuthTicketDataFormat.cs" />
+    <Compile Remove="Instrumentation\DateTimePickerTag.cs" />
     <Compile Remove="Instrumentation\HttpContextExtension.cs" />
     <Compile Remove="Instrumentation\StaticHttpContext.cs" />
     <Compile Remove="Instrumentation\StaticHttpContextExtensions.cs" />
