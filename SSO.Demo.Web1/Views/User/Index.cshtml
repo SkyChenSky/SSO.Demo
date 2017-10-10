@@ -17,7 +17,7 @@
         @Html.LayerUiDateTimePickerFor(a => a.Params.BeganCreateDateTime, "开始创建时间")
     </div>
     <div class="layui-inline">
-        <datetimepicker asp-for="Params.EndCreateDateTime" placeholder="结束创建时间" />
+        <datetimepicker asp-for="Params.EndCreateDateTime" placeholder="结束创建时间" require="true"/>
     </div>
     <input id="btn_search" class="layui-btn" value="搜索" type="button" />
     <button type="reset" class="layui-btn layui-btn-primary">重置</button>

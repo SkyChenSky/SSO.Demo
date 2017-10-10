@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using SSO.Demo.Toolkits.Helper;
 
 namespace SSO.Demo.Toolkits.Extension
 {
@@ -98,11 +97,6 @@ namespace SSO.Demo.Toolkits.Extension
         }
 
         #endregion
-
-        public static void weqwe()
-        {
-            TagBuilder builder = new TagBuilder("");
-        }
     }
 
     public enum LayerUiDateTimeType
