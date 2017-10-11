@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SSO.Demo.Web1.Model.User
 {
@@ -12,5 +13,8 @@ namespace SSO.Demo.Web1.Model.User
 
         [Required, StringLength(32)]
         public string Password { get; set; }
+
+        [Required]
+        public DateTime? CreateDateTime { get; set; }
     }
 }

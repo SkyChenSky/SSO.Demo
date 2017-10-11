@@ -58,7 +58,8 @@ namespace SSO.Demo.Web1.Controllers
                     {
                         UserId = user.UserId,
                         UserName = user.UserName,
-                        Password = user.Password
+                        Password = user.Password,
+                        CreateDateTime = new DateTime(2013, 10, 10)
                     };
                     return View(viewModel);
                 }
