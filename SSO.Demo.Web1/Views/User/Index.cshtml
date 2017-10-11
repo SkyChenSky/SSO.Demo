@@ -6,18 +6,10 @@
 @model PageListParam<ListParam>
 
 <form id="form_userSearch">
-    <div class="layui-inline">
-        @Html.LayerUiEditorFor(a => a.Params.UserId, "主键")
-    </div>
-    <div class="layui-inline">
-        @Html.LayerUiEditorFor(a => a.Params.UserName, "用户名")
-    </div>
-    <div class="layui-inline">
-        @Html.LayerUiDateTimePickerFor(a => a.Params.BeganCreateDateTime, "开始创建时间")
-    </div>
-    <div class="layui-inline">
-        <datetimepicker asp-for="Params.EndCreateDateTime" placeholder="结束创建时间" />
-    </div>
+    <editor asp-for="Params.UserId" input-display="LayuiInline" />
+    <editor asp-for="Params.UserName" placeholder="用户名" input-display="LayuiInline" />
+    <datetimepicker asp-for="Params.BeganCreateDateTime" input-display="LayuiInline" />
+    <datetimepicker asp-for="Params.EndCreateDateTime" input-display="LayuiInline" />
     <div class="layui-inline">
         <input id="btn_search" class="layui-btn" value="搜索" type="button" />
     </div>
@@ -73,12 +65,12 @@
                 reloadForm);
 
             //添加按钮
-            $('#form-toolBar #btn_add').on('click', function() {
+            $('#form-toolBar #btn_add').on('click', function () {
                 $.openLayer('/user/add', null, '添加用户');
             });
 
             //批量删除按钮
-            $('#form-toolBar #btn_batchDelete').on('click', function() {
+            $('#form-toolBar #btn_batchDelete').on('click', function () {
                 var checkStatus = table.checkStatus('table_userlist');
                 var data = checkStatus.data;
 

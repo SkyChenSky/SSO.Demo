@@ -4,7 +4,9 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
+using SSO.Demo.Toolkits.Enums;
 
 namespace SSO.Demo.Toolkits.Extension
 {
@@ -71,7 +73,7 @@ namespace SSO.Demo.Toolkits.Extension
 
         #region 文本框控件
 
-        public static IHtmlContent LayerUiEditor(this IHtmlHelper helper, string name, object value, string placeholder = "", InputType inputType = InputType.text, bool require = false)
+        public static IHtmlContent LayerUiEditor(this IHtmlHelper helper, string name, object value, string placeholder = "", EInputType inputType = EInputType.text, bool require = false)
         {
             var id = name.Replace(".", "_");
 
@@ -89,7 +91,7 @@ namespace SSO.Demo.Toolkits.Extension
             return new HtmlString(sb.ToString());
         }
 
-        public static IHtmlContent LayerUiEditorFor<TModel, TResult>(this IHtmlHelper<TModel> helper, Expression<Func<TModel, TResult>> expression, string placeholder = "", InputType inputType = InputType.text, bool require = false)
+        public static IHtmlContent LayerUiEditorFor<TModel, TResult>(this IHtmlHelper<TModel> helper, Expression<Func<TModel, TResult>> expression, string placeholder = "", EInputType inputType = EInputType.text, bool require = false)
         {
             var modelProperty = helper.GetExpressionValue(expression);
 
@@ -106,11 +108,5 @@ namespace SSO.Demo.Toolkits.Extension
         date = 2,
         time = 3,
         year = 4
-    }
-
-    public enum InputType
-    {
-        text = 0,
-        password = 1,
     }
 }

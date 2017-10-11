@@ -1,19 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SSO.Demo.Web1.Model.User
 {
     public class ListParam
     {
+        [Display(Name = "主键")]
         public string UserId { get; set; }
 
+        [Display(Name = "用户名")]
         public string UserName { get; set; }
 
+        [Display(Name = "开始创建时间")]
         public DateTime? BeganCreateDateTime { get; set; }
 
+        [Display(Name = "结束创建时间")]
         public DateTime? EndCreateDateTime { get; set; }
     }
 }

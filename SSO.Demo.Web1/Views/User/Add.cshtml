@@ -2,9 +2,9 @@
     ViewData["Title"] = "添加用户";
     Layout = null;
 }
+@using SSO.Demo.Toolkits.Enums
 @using SSO.Demo.Toolkits.Extension
 @using SSO.Demo.Web1.Model.User
-@using InputType = SSO.Demo.Toolkits.Extension.InputType
 @model UserParams
 <div class="site-demo site-demo-body">
     <div class="layui-main" style="width: 350px">
@@ -12,28 +12,21 @@
             @Html.HiddenFor(a => a.UserId)
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
-                <div class="layui-input-inline">
-                    @Html.LayerUiEditorFor(a => a.UserName, "请输入用户名", require: true)
-                </div>
+                <editor asp-for="UserName" input-display="LayuiInputInline" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <div class="layui-input-inline">
-                    @Html.LayerUiEditorFor(a => a.Password, "请输入密码", InputType.password, true)
+                    @Html.LayerUiEditorFor(a => a.Password, "请输入密码", EInputType.password, true)
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
-                <div class="layui-input-inline">
-                    <input name="sex" value="男" title="男" checked="" type="radio">
-                    <input name="sex" value="女" title="女" type="radio">
-                </div>
+                <radioGroup asp-for="Sex" asp-data="typeof(Sex)" input-display="LayuiInputInline"/>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">创建时间</label>
-                <div class="layui-input-inline">
-                    <datetimepicker asp-for="CreateDateTime" placeholder="创建时间" />
-                </div>
+                <datetimepicker asp-for="CreateDateTime" placeholder="创建时间" input-display="LayuiInputInline"/>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">省份</label>
