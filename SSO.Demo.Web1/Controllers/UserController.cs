@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,10 @@ namespace SSO.Demo.Web1.Controllers
             if (listParam.EndCreateDateTime.HasValue)
                 userQueryable = userQueryable.Where(a => a.CreateDateTime <= listParam.EndCreateDateTime);
 
+            var totalCount = userQueryable.Count();
             var userList = userQueryable.OrderBy(a => a.CreateDateTime).ToPageList(pageListParam);
 
-            return PageListResult(userList, userList.Count);
+            return PageListResult(userList, totalCount);
         }
 
         [HttpGet]
@@ -80,9 +82,9 @@ namespace SSO.Demo.Web1.Controllers
             };
 
             _skyChenContext.User.Add(user);
-            _skyChenContext.SaveChanges();
+            var result = _skyChenContext.SaveChanges() > 0;
 
-            return View("Index");
+            return Json(result ? ServiceResult.IsSuccess("添加成功") : ServiceResult.IsFailed("添加失败"));
         }
 
         [HttpPost]
@@ -94,9 +96,20 @@ namespace SSO.Demo.Web1.Controllers
                 return Json(ServiceResult.IsFailed("删除失败"));
 
             _skyChenContext.User.Remove(user);
-            var reuslt = _skyChenContext.SaveChanges() > 0;
+            var result = _skyChenContext.SaveChanges() > 0;
 
-            return Json(reuslt ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
+            return Json(result ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
+        }
+
+        [HttpPost]
+        public IActionResult BatchDelete(List<string> userIds)
+        {
+            var users = _skyChenContext.User.Where(a => userIds.Contains(a.UserId)).ToList();
+
+            _skyChenContext.User.RemoveRange(users);
+            var result = _skyChenContext.SaveChanges() > 0;
+
+            return Json(result ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
         }
     }
 }

@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Content Remove="Views\Shared\_FormLayout.cshtml" />
-    <Content Remove="Views\Shared\_HomeLayout.cshtml" />
     <Content Remove="wwwroot\Lib\bootstrap.js" />
     <Content Remove="wwwroot\Lib\bootstrap.min.js" />
   </ItemGroup>

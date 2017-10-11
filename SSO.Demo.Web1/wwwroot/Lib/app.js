@@ -1,5 +1,6 @@
 ﻿jQuery.extend({
     openLayer: function (url, params, title) {
+        var indexx;
         layui.use('layer',
             function () {
                 var $ = layui.$;
@@ -15,16 +16,31 @@
                 var layerIndex = layer.open({
                     type: 1,
                     skin: 'layui-layer-rim', //加上边框
-                    area: ['800px', '800px'], //宽高
                     content: loadHtml,
                     title: title
                 });
 
-                var index = layer.getFrameIndex(layerIndex); //获取窗口索引
+                indexx = layer.getFrameIndex(layerIndex); //获取窗口索引
 
                 layer.iframeAuto(index);
             });
 
+        return indexx;
+    },
+    confirmDelete: function (url, params,reload) {
+        layer.confirm('是否确认删除？',
+            function (index) {
+                $.post(url,
+                    params,
+                    function (result) {
+                        if (result.success) {
+                            reload();
+                            layer.close(index);
+                            layer.msg(result.message);
+                        } else
+                            layer.msg(result.message);
+                    });
+            });
     }
 });
 

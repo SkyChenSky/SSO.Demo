@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Http
 <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-<ul class="layui-nav layui-nav-tree" lay-filter="test">
+<ul id="left-scoll" class="layui-nav layui-nav-tree">
     <li class="layui-nav-item layui-nav-itemed">
         <a class="" href="javascript:;">所有商品</a>
         <dl class="layui-nav-child">
@@ -19,5 +19,5 @@
         </dl>
     </li>
     <li class="layui-nav-item"><a href="">云市场</a></li>
-    <li class="layui-nav-item"><a href="">发布商品</a></li>
+    <li class="layui-nav-item"><a data-url="/user/index" href="javascript:;">用户列表</a></li>
 </ul>

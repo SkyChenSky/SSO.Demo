@@ -1,0 +1,85 @@
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewData["Title"]</title>
+    <link href="~/layui/css/layui.css" rel="stylesheet" />
+    <style>
+        .site-demo .layui-main {
+            margin: 15px;
+            line-height: 22px;
+        }
+    </style>
+</head>
+<body class="layui-layout-body">
+    <script src="~/Lib/jquery-1.10.2.js"></script>
+    <script src="~/Lib/jquery.form.js"></script>
+    <script src="~/Lib/jquery.validate.js"></script>
+    <script src="~/Lib/modernizr-2.6.2.js"></script>
+    <script src="~/layui/layui.js"></script>
+    <script src="~/Lib/app.js"></script>
+
+    <div class="layui-layout-admin">
+        <div class="layui-header">
+            @Html.Partial("~/Views/Shared/_Header.cshtml")
+        </div>
+
+        <div class="layui-side layui-bg-black">
+            <div class="layui-side-scroll">
+                @Html.Partial("~/Views/Shared/_Scroll.cshtml")
+            </div>
+        </div>
+
+        <div class="layui-body site-demo">
+            <div class="layui-main">
+                <div class="layui-tab layui-tab-brief" lay-allowclose="true" lay-filter="demo">
+                    <ul class="layui-tab-title">
+                        <li class="layui-this">首页</li>
+                    </ul>
+                    <div class="layui-tab-content" style="height: 100px;">
+                        <div class="layui-tab-item layui-show">@RenderBody()</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="layui-footer">
+            @Html.Partial("~/Views/Shared/_Footer.cshtml")
+        </div>
+    </div>
+
+    <script>
+        layui.use('element',
+            function () {
+                var $ = layui.jquery, element = layui.element;
+
+                $("#left-scoll a").on('click',
+                    function () {
+                        var title = $(this).text();
+                        var url = $(this).data().url;
+
+                        var isOpen = $('.layui-tab-title li[lay-id="' + title + '"]').length;
+                        if (!isOpen) {
+                            var loadContent = url ? $.ajax({
+                                url: url,
+                                type: "Get",
+                                async: false
+                            }).responseText : "";
+
+                            element.tabAdd('demo',
+                                {
+                                    title: title,
+                                    content: loadContent,
+                                    id: title
+                                });
+                        }
+                        element.tabChange('demo', title);
+                    });
+            });
+    </script>
+    @RenderSection("Scripts", false)
+</body>
+</html>
