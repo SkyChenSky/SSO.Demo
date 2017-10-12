@@ -2,13 +2,11 @@
     ViewData["Title"] = "添加用户";
     Layout = null;
 }
-@using SSO.Demo.Toolkits.Enums
-@using SSO.Demo.Toolkits.Extension
 @using SSO.Demo.Web1.Model.User
 @model UserParams
 <div class="site-demo site-demo-body">
     <div class="layui-main" style="width: 350px">
-        <form class="layui-form layui-form-pane" method="post" action="/User/Add">
+        <postform asp-action="Add" asp-controller="User">
             @Html.HiddenFor(a => a.UserId)
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
@@ -16,9 +14,7 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
-                <div class="layui-input-inline">
-                    @Html.LayerUiEditorFor(a => a.Password, "请输入密码", EInputType.password, true)
-                </div>
+                <editor asp-for="Password" input-display="LayuiInputInline" type="password" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">性别</label>
@@ -30,24 +26,16 @@
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">省份</label>
-                <div class="layui-input-inline">
-                    <select name="quiz1">
-                        <option value="">请选择省</option>
-                        <option value="浙江" selected="">浙江省</option>
-                        <option value="你的工号">江西省</option>
-                        <option value="你最喜欢的老师">福建省</option>
-                    </select>
-                </div>
+                <dropdownlist asp-for="Sex" asp-data="typeof(Sex)" input-display="LayuiInputInline"/>
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
                     <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
                 </div>
             </div>
-        </form>
+        </postform>
     </div>
 </div>
-
 
 <script>
     layui.use(['form'], function () {
@@ -71,7 +59,5 @@
                 });
             return false;
         });
-
-        form.render();
     });
 </script>

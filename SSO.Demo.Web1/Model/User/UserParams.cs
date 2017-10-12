@@ -15,7 +15,7 @@ namespace SSO.Demo.Web1.Model.User
         [Required, StringLength(32), Display(Name = "密码"), Description("请输入密码")]
         public string Password { get; set; }
 
-        [Required]
+        [Required, Display(Name = "创建时间"), Description("请输入数据")]
         public DateTime? CreateDateTime { get; set; }
 
         public Sex Sex { get; set; }

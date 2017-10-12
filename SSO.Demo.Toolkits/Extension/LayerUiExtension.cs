@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Text;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
 using SSO.Demo.Toolkits.Enums;
 
@@ -32,7 +31,7 @@ namespace SSO.Demo.Toolkits.Extension
         #region 时间控件
 
         public static IHtmlContent LayerUiDateTimePicker(this IHtmlHelper helper, string name, object value,
-            string placeholder = "", LayerUiDateTimeType layerUiDateTimeType = LayerUiDateTimeType.datetime,
+            string placeholder = "", ELayerUiDateTimeType layerUiDateTimeType = ELayerUiDateTimeType.datetime,
             bool require = false)
         {
             var id = name.Replace(".", "_");
@@ -60,7 +59,7 @@ namespace SSO.Demo.Toolkits.Extension
 
         public static IHtmlContent LayerUiDateTimePickerFor<TModel, TResult>(this IHtmlHelper<TModel> helper,
             Expression<Func<TModel, TResult>> expression,
-            string placeholder = "", LayerUiDateTimeType layerUiDateTimeType = LayerUiDateTimeType.datetime,
+            string placeholder = "", ELayerUiDateTimeType layerUiDateTimeType = ELayerUiDateTimeType.datetime,
             bool require = false)
         {
             var modelProperty = helper.GetExpressionValue(expression);
@@ -99,14 +98,5 @@ namespace SSO.Demo.Toolkits.Extension
         }
 
         #endregion
-    }
-
-    public enum LayerUiDateTimeType
-    {
-        datetime = 0,
-        month = 1,
-        date = 2,
-        time = 3,
-        year = 4
     }
 }

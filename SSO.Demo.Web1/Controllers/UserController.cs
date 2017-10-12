@@ -61,13 +61,18 @@ namespace SSO.Demo.Web1.Controllers
                         UserId = user.UserId,
                         UserName = user.UserName,
                         Password = user.Password,
-                        CreateDateTime = new DateTime(2013, 10, 10)
+                        CreateDateTime = new DateTime(2013, 10, 10),
+                        Sex = Sex.Woman
                     };
                     return View(viewModel);
                 }
             }
 
-            return View();
+            return View(new UserParams
+            {
+                CreateDateTime = new DateTime(2013, 10, 10),
+                Sex = Sex.Woman
+            });
         }
 
         [HttpPost]
