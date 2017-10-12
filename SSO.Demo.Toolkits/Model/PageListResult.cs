@@ -1,12 +1,14 @@
-﻿namespace SSO.Demo.Toolkits.Model
+﻿using System.Collections.Generic;
+
+namespace SSO.Demo.Toolkits.Model
 {
     public class PageListResult
     {
         public PageListResult()
         {
-            
+
         }
-        public PageListResult(object data, int totalCount) 
+        public PageListResult(object data, int totalCount)
         {
             Data = data;
             Count = totalCount;

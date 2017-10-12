@@ -11,6 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Migrations\20171012094315_init.cs" />
+    <Compile Include="Migrations\20171012094315_init.Designer.cs" />
+    <Compile Include="Migrations\SkyChenContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.0" />

@@ -5,7 +5,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SSO.Demo.Service;
 using SSO.Demo.Service.Context;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
@@ -35,12 +34,12 @@ namespace SSO.Demo.Web1.Controllers
         [HttpPost]
         public IActionResult Login(LoginParams loginParams)
         {
-            var loginSuccessUser = _skyChenContext.User.FirstOrDefault(a =>
+            var loginSuccessUser = _skyChenContext.SysUser.FirstOrDefault(a =>
                 a.UserName == loginParams.UserName && a.Password == loginParams.Password);
 
             if (loginSuccessUser != null)
             {
-                SignIn(new LoginUser { LoginDateTime = DateTime.Now, UserId = loginSuccessUser.UserId, UserName = loginSuccessUser.UserName });
+                SignIn(new LoginUser { LoginDateTime = DateTime.Now, UserId = loginSuccessUser.SysUserId, UserName = loginSuccessUser.UserName });
 
                 return Json(ServiceResult.IsSuccess("登录成功"));
             }

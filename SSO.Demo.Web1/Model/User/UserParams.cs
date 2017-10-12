@@ -6,26 +6,22 @@ namespace SSO.Demo.Web1.Model.User
 {
     public class UserParams
     {
-        [Required]
-        public string UserId { get; set; }
+        [Description("主键")]
+        public string SysUserId { get; set; }
 
-        [Required, StringLength(16), Display(Name = "用户名"), Description("请输入用户名")]
+        [Description("用户名"), Required, StringLength(16)]
         public string UserName { get; set; }
 
-        [Required, StringLength(32), Display(Name = "密码"), Description("请输入密码")]
+        [Description("密码"), Required]
         public string Password { get; set; }
 
-        [Required, Display(Name = "创建时间"), Description("请输入数据")]
-        public DateTime? CreateDateTime { get; set; }
+        [Description("姓名"), Required, StringLength(32)]
+        public string RealName { get; set; }
 
-        public Sex Sex { get; set; }
-    }
+        [Description("Email"), Required, StringLength(32)]
+        public string Email { get; set; }
 
-    public enum Sex
-    {
-        [Display(Name = "男")]
-        Man = 0,
-        [Display(Name = "女")]
-        Woman = 1
+        [Description("手机号"), Required, StringLength(11)]
+        public string Mobile { get; set; }
     }
 }

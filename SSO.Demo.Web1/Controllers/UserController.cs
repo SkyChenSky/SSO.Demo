@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SSO.Demo.Service.Enums;
 using SSO.Demo.Service.Model;
 using SSO.Demo.Service.Service;
 using SSO.Demo.Toolkits.Extension;
@@ -28,14 +30,26 @@ namespace SSO.Demo.Web1.Controllers
 
         public IActionResult List(PageListParam<ListParam> pageListParam)
         {
-            var where = ExpressionBuilder.True<User>();
+            var where = ExpressionBuilder.True<SysUser>();
             var listParam = pageListParam.Params;
 
             if (!listParam.UserName.IsNullOrEmpty())
                 where = where.And(a => a.UserName.StartsWith(listParam.UserName));
 
             if (!listParam.UserId.IsNullOrEmpty())
-                where = where.And(a => a.UserId == listParam.UserId);
+                where = where.And(a => a.SysUserId == listParam.UserId);
+
+            if (!listParam.Email.IsNullOrEmpty())
+                where = where.And(a => a.Email.StartsWith(listParam.Email));
+
+            if (!listParam.RealName.IsNullOrEmpty())
+                where = where.And(a => a.RealName.StartsWith(listParam.RealName));
+
+            if (listParam.UserStatus != null)
+                where = where.And(a => a.UserStatus == listParam.UserStatus.Value);
+
+            if (listParam.UserType != null)
+                where = where.And(a => a.UserType == listParam.UserType.Value);
 
             if (listParam.BeganCreateDateTime.HasValue)
                 where = where.And(a => a.CreateDateTime >= listParam.BeganCreateDateTime);
@@ -44,6 +58,17 @@ namespace SSO.Demo.Web1.Controllers
                 where = where.And(a => a.CreateDateTime <= listParam.EndCreateDateTime);
 
             var result = _userService.PageList(where, pageListParam);
+            result.Data = ((List<SysUser>)result.Data).Select(a => new UserTableList
+            {
+                CreateDateTime = a.CreateDateTime,
+                Email = a.Email,
+                Mobile = a.Mobile,
+                RealName = a.RealName,
+                SysUserId = a.SysUserId,
+                UserName = a.UserName,
+                UserStatus = ((EUserStatus)a.UserStatus).GetDisplayName(),
+                UserType = ((EUserType)a.UserType).GetDisplayName()
+            }).ToList();
 
             return PageListResult(result);
         }
@@ -57,11 +82,9 @@ namespace SSO.Demo.Web1.Controllers
 
             var viewModel = new UserParams
             {
-                UserId = user.UserId,
+                SysUserId = user.SysUserId,
                 UserName = user.UserName,
-                Password = user.Password,
-                CreateDateTime = new DateTime(2013, 10, 10),
-                Sex = Sex.Woman
+                Password = user.Password
             };
             return View(viewModel);
         }
@@ -69,10 +92,10 @@ namespace SSO.Demo.Web1.Controllers
         [HttpPost]
         public IActionResult Add(UserParams userParams)
         {
-            var user = new User
+            var user = new SysUser
             {
                 CreateDateTime = DateTime.Now,
-                UserId = Guid.NewGuid().ToString("N"),
+                SysUserId = Guid.NewGuid().ToString("N"),
                 Password = userParams.Password,
                 UserName = userParams.UserName
             };

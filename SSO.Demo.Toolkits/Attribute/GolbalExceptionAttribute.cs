@@ -14,6 +14,7 @@ namespace SSO.Demo.Toolkits.Attribute
 
                 exception.WriteToFile("全局异常捕抓");
 
+                //todo配置控制
                 exception.WriteToMongo(new ExceptionMsg());
             }
 

@@ -7,7 +7,7 @@
 <div class="site-demo site-demo-body">
     <div class="layui-main" style="width: 350px">
         <postform asp-action="Add" asp-controller="User">
-            @Html.HiddenFor(a => a.UserId)
+            <input asp-for="SysUserId" type="hidden" />
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
                 <editor asp-for="UserName" input-display="LayuiInputInline" />
@@ -17,20 +17,20 @@
                 <editor asp-for="Password" input-display="LayuiInputInline" type="password" />
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">性别</label>
-                <radioGroup asp-for="Sex" asp-data="typeof(Sex)" input-display="LayuiInputInline"/>
+                <label class="layui-form-label">姓名</label>
+                <editor asp-for="RealName" input-display="LayuiInputInline" />
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">创建时间</label>
-                <datetimepicker asp-for="CreateDateTime" placeholder="创建时间" input-display="LayuiInputInline"/>
+                <label class="layui-form-label">Email</label>
+                <editor asp-for="Email" input-display="LayuiInputInline" />
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">省份</label>
-                <dropdownlist asp-for="Sex" asp-data="typeof(Sex)" input-display="LayuiInputInline" defaultText="== 性别 =="/>
+                <label class="layui-form-label">手机号</label>
+                <<editor asp-for="Mobile" input-display="LayuiInputInline" />
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">提交</button>
                 </div>
             </div>
         </postform>

@@ -4,9 +4,14 @@
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
 
-<form id="form_userSearch">
+<form id="form_userSearch" class="layui-form layui-form-pane">
     <editor asp-for="Params.UserId" input-display="LayuiInline" />
     <editor asp-for="Params.UserName" placeholder="用户名" input-display="LayuiInline" />
+    <editor asp-for="Params.RealName" placeholder="姓名" input-display="LayuiInline" />
+    <editor asp-for="Params.Mobile" placeholder="手机号" input-display="LayuiInline" />
+    <editor asp-for="Params.Email" placeholder="Email" input-display="LayuiInline" />
+    <dropdownlist asp-for="Params.UserType" input-display="LayuiInline" asp-data="typeof(EUserType)" defaultText="请选择用户类型" />
+    <dropdownlist asp-for="Params.UserStatus" input-display="LayuiInline" asp-data="typeof(EUserStatus)" defaultText="请选择用户状态" />
     <datetimepicker asp-for="Params.BeganCreateDateTime" input-display="LayuiInline" />
     <datetimepicker asp-for="Params.EndCreateDateTime" input-display="LayuiInline" />
     <div class="layui-inline">
@@ -29,11 +34,16 @@
 <table class="layui-table" lay-data="{height:'473px',limit: 10,url:'/user/list', page:true, id:'table_userlist'}" lay-filter="user-container">
     <thead>
         <tr>
-            <th lay-data="{field:'userId', checkbox: true,fixed: true}"></th>
+            <th lay-data="{ checkbox: true,fixed: true}"></th>
             <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
-            <th lay-data="{field:'userId', width:120}">主键</th>
+            <th lay-data="{field:'sysUserId', width:120}">主键</th>
             <th lay-data="{field:'userName', width:120}">用户名</th>
-            <th lay-data="{field:'createDateTime', width:200}">创建时间</th>
+            <th lay-data="{field:'realName', width:120}">姓名</th>
+            <th lay-data="{field:'mobile', width:120}">手机号</th>
+            <th lay-data="{field:'email', width:200}">Email</th>
+            <th lay-data="{field:'userType', width:120}">用户类型</th>
+            <th lay-data="{field:'userStatus', width:100}">状态</th>
+            <th lay-data="{field:'createDateTime', width:180}">创建时间</th>
         </tr>
     </thead>
 </table>
@@ -108,4 +118,9 @@
                     }
                 });
         });
+
+    layui.use('form', function () {{
+        var form = layui.form;
+        form.render();
+    }});
 </script>
