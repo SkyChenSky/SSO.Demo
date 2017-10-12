@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SSO.Demo.Service;
+using SSO.Demo.Service.Context;
+using SSO.Demo.Service.Model;
+using SSO.Demo.Service.Service;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Model;
 using SSO.Demo.Web1.Model.User;
@@ -14,10 +16,12 @@ namespace SSO.Demo.Web1.Controllers
     public class UserController : BaseController
     {
         private readonly SkyChenContext _skyChenContext;
+        private readonly UserService _userService;
 
-        public UserController(SkyChenContext skyChenContext)
+        public UserController(SkyChenContext skyChenContext, UserService userService)
         {
             _skyChenContext = skyChenContext;
+            _userService = userService;
         }
 
         public IActionResult Index()
@@ -95,15 +99,9 @@ namespace SSO.Demo.Web1.Controllers
         [HttpPost]
         public IActionResult Delete(string userId)
         {
-            var user = _skyChenContext.User.SingleOrDefault(a => a.UserId == userId);
+            var result = _userService.Delete(userId);
 
-            if (user == null)
-                return Json(ServiceResult.IsFailed("删除失败"));
-
-            _skyChenContext.User.Remove(user);
-            var result = _skyChenContext.SaveChanges() > 0;
-
-            return Json(result ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
+            return Json(result);
         }
 
         [HttpPost]

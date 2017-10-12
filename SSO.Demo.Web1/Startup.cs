@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SSO.Demo.Service;
+using SSO.Demo.Service.Context;
 using SSO.Demo.Toolkits.Attribute;
+using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 
 namespace SSO.Demo.Web1
@@ -44,6 +45,8 @@ namespace SSO.Demo.Web1
 
             //注册数据库
             services.AddDbContext<SkyChenContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SkyChenDatabase")));
+
+            services.AddService();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
