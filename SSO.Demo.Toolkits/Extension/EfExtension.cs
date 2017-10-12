@@ -6,7 +6,7 @@ namespace SSO.Demo.Toolkits.Extension
 {
     public static class EfExtension
     {
-        public static List<T> ToPageList<T, TParam>(this IEnumerable<T> dbContext, PageListParam<TParam> pageListParam) where T : class where TParam : new()
+        public static List<T> ToPageList<T>(this IEnumerable<T> dbContext, PageListParam pageListParam) where T : class
         {
             return dbContext.Skip((pageListParam.Page - 1) * pageListParam.Limit).Take(pageListParam.Limit).ToList();
         }

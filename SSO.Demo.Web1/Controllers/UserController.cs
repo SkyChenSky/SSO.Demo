@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SSO.Demo.Service.Context;
 using SSO.Demo.Service.Model;
 using SSO.Demo.Service.Service;
 using SSO.Demo.Toolkits.Extension;
+using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
 using SSO.Demo.Web1.Model.User;
 
@@ -15,12 +14,10 @@ namespace SSO.Demo.Web1.Controllers
     [Authorize]
     public class UserController : BaseController
     {
-        private readonly SkyChenContext _skyChenContext;
         private readonly UserService _userService;
 
-        public UserController(SkyChenContext skyChenContext, UserService userService)
+        public UserController(UserService userService)
         {
-            _skyChenContext = skyChenContext;
             _userService = userService;
         }
 
@@ -31,52 +28,42 @@ namespace SSO.Demo.Web1.Controllers
 
         public IActionResult List(PageListParam<ListParam> pageListParam)
         {
-            var userQueryable = _skyChenContext.User.Where(a => true);
+            var where = ExpressionBuilder.True<User>();
             var listParam = pageListParam.Params;
 
             if (!listParam.UserName.IsNullOrEmpty())
-                userQueryable = userQueryable.Where(a => a.UserName.StartsWith(listParam.UserName));
+                where = where.And(a => a.UserName.StartsWith(listParam.UserName));
 
             if (!listParam.UserId.IsNullOrEmpty())
-                userQueryable = userQueryable.Where(a => a.UserId == listParam.UserId);
+                where = where.And(a => a.UserId == listParam.UserId);
 
             if (listParam.BeganCreateDateTime.HasValue)
-                userQueryable = userQueryable.Where(a => a.CreateDateTime >= listParam.BeganCreateDateTime);
+                where = where.And(a => a.CreateDateTime >= listParam.BeganCreateDateTime);
 
             if (listParam.EndCreateDateTime.HasValue)
-                userQueryable = userQueryable.Where(a => a.CreateDateTime <= listParam.EndCreateDateTime);
+                where = where.And(a => a.CreateDateTime <= listParam.EndCreateDateTime);
 
-            var totalCount = userQueryable.Count();
-            var userList = userQueryable.OrderBy(a => a.CreateDateTime).ToPageList(pageListParam);
+            var result = _userService.PageList(where, pageListParam);
 
-            return PageListResult(userList, totalCount);
+            return PageListResult(result);
         }
 
         [HttpGet]
         public IActionResult Add(string userId)
         {
-            if (!userId.IsNullOrEmpty())
-            {
-                var user = _skyChenContext.User.FirstOrDefault(a => a.UserId == userId);
-                if (user != null)
-                {
-                    var viewModel = new UserParams
-                    {
-                        UserId = user.UserId,
-                        UserName = user.UserName,
-                        Password = user.Password,
-                        CreateDateTime = new DateTime(2013, 10, 10),
-                        Sex = Sex.Woman
-                    };
-                    return View(viewModel);
-                }
-            }
+            var user = _userService.GetByUserId(userId);
+            if (user == null)
+                return View();
 
-            return View(new UserParams
+            var viewModel = new UserParams
             {
+                UserId = user.UserId,
+                UserName = user.UserName,
+                Password = user.Password,
                 CreateDateTime = new DateTime(2013, 10, 10),
                 Sex = Sex.Woman
-            });
+            };
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -90,16 +77,15 @@ namespace SSO.Demo.Web1.Controllers
                 UserName = userParams.UserName
             };
 
-            _skyChenContext.User.Add(user);
-            var result = _skyChenContext.SaveChanges() > 0;
+            var result = _userService.Add(user);
 
-            return Json(result ? ServiceResult.IsSuccess("添加成功") : ServiceResult.IsFailed("添加失败"));
+            return Json(result);
         }
 
         [HttpPost]
         public IActionResult Delete(string userId)
         {
-            var result = _userService.Delete(userId);
+            var result = _userService.DeleteByUserId(userId);
 
             return Json(result);
         }
@@ -107,12 +93,9 @@ namespace SSO.Demo.Web1.Controllers
         [HttpPost]
         public IActionResult BatchDelete(List<string> userIds)
         {
-            var users = _skyChenContext.User.Where(a => userIds.Contains(a.UserId)).ToList();
+            var result = _userService.BatchDeleteUserIds(userIds);
 
-            _skyChenContext.User.RemoveRange(users);
-            var result = _skyChenContext.SaveChanges() > 0;
-
-            return Json(result ? ServiceResult.IsSuccess("删除成功") : ServiceResult.IsFailed("删除失败"));
+            return Json(result);
         }
     }
 }
