@@ -1,6 +1,5 @@
 ﻿jQuery.extend({
     openLayer: function (url, params, title) {
-        var indexx;
         layui.use('layer',
             function () {
                 var $ = layui.$;
@@ -13,21 +12,23 @@
                     data: params
                 }).responseText;
 
-                var layerIndex = layer.open({
+                layer.open({
                     type: 1,
                     skin: 'layui-layer-rim', //加上边框
                     content: loadHtml,
-                    title: title
+                    area: ['600px'],
+                    title: title,
+                    success: function () {
+                        var form = $("form")
+                            .removeData("validator")
+                            .removeData("unobtrusiveValidation");
+
+                        $.validator.unobtrusive.parse(form);
+                    }
                 });
-
-                indexx = layer.getFrameIndex(layerIndex); //获取窗口索引
-
-                layer.iframeAuto(index);
             });
-
-        return indexx;
     },
-    confirmDelete: function (url, params,reload) {
+    confirmDelete: function (url, params, reload) {
         layer.confirm('是否确认删除？',
             function (index) {
                 $.post(url,
@@ -41,6 +42,30 @@
                             layer.msg(result.message);
                     });
             });
+    },
+    confirmEdit: function (formSelector, data, reload) {
+        var $form = $(formSelector);
+        var isvaild = $form.valid();
+        if (!isvaild)
+            return false;
+
+        layer.confirm('是否确认提交？',
+            function () {
+                var action = $form.prop("action");
+
+                $.post(action,
+                    data,
+                    function (result) {
+                        if (result.success) {
+                            layer.closeAll();
+                            layer.msg(result.message);
+
+                            reload();
+                        } else
+                            layer.msg(result.message);
+                    });
+            });
+        return false;
     }
 });
 

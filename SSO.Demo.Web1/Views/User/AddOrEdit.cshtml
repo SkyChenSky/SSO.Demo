@@ -5,37 +5,37 @@
 @using SSO.Demo.Web1.Model.User
 @model UserParams
 <div class="site-demo site-demo-body">
-    <div class="layui-main" style="width: 350px">
-        <postform id="form-user-add" asp-action="Add" asp-controller="User">
+    <div class="layui-main" style="width: 550px">
+        <postform id="form-user-add" asp-action='@(Model!=null && Model.IsEdit?"edit":"add")' asp-controller="User">
             <input asp-for="SysUserId" type="hidden" />
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
-                <editor asp-for="UserName" input-display="LayuiInputInline" />
-                @Html.ValidationMessageFor(a => a.UserName)
+                <editor asp-for="UserName" input-display="LayuiInputInline" disabled="@(Model != null &&Model.IsEdit)" />
+                <ValidationMessage asp-validation-for="UserName" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <editor asp-for="Password" input-display="LayuiInputInline" type="password" />
-                @Html.ValidationMessageFor(a => a.Password)
+                <ValidationMessage asp-validation-for="Password" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <editor asp-for="RealName" input-display="LayuiInputInline" />
-                @Html.ValidationMessageFor(a => a.RealName)
+                <ValidationMessage asp-validation-for="RealName" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">Email</label>
                 <editor asp-for="Email" input-display="LayuiInputInline" />
-                @Html.ValidationMessageFor(a => a.Email)
+                <ValidationMessage asp-validation-for="Email" />
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <editor asp-for="Mobile" input-display="LayuiInputInline" />
-                @Html.ValidationMessageFor(a => a.Mobile)
+                <ValidationMessage asp-validation-for="Mobile" />
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn" lay-submit="" lay-filter="btn-submit">提交</button>
+                    <button class="layui-btn" type="submit" lay-submit="" lay-filter="btn-submit">提交</button>
                 </div>
             </div>
         </postform>
@@ -44,28 +44,11 @@
 
 <script>
     layui.use(['form'], function () {
-        var form = layui.form, layer = layui.layer;
+        var form = layui.form, $ = layui.$;
 
         //监听提交
         form.on('submit(btn-submit)', function (data) {
-            var isvaild = $("#form-user-add").valid();
-            if (!isvaild)
-                return false;
-
-            layer.confirm('是否确认提交？',
-                function (confirmIndex) {
-                    $.post("/user/add",
-                        data.field,
-                        function (result) {
-                            if (result.success) {
-                                layer.close(confirmIndex);
-                                layer.msg(result.message);
-
-                                layer.closeAll();
-                            } else
-                                layer.msg(result.message);
-                        });
-                });
+            $.confirmEdit("#form-user-add", data.field, parent.reloadForm);
             return false;
         });
     });

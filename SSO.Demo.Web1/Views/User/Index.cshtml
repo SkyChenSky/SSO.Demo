@@ -5,7 +5,6 @@
 @model PageListParam<ListParam>
 
 <form id="form_userSearch" class="layui-form layui-form-pane">
-    <editor asp-for="Params.UserId" input-display="LayuiInline" />
     <editor asp-for="Params.UserName" placeholder="用户名" input-display="LayuiInline" />
     <editor asp-for="Params.RealName" placeholder="姓名" input-display="LayuiInline" />
     <editor asp-for="Params.Mobile" placeholder="手机号" input-display="LayuiInline" />
@@ -36,7 +35,6 @@
         <tr>
             <th lay-data="{ checkbox: true,fixed: true}"></th>
             <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
-            <th lay-data="{field:'sysUserId', width:120}">主键</th>
             <th lay-data="{field:'userName', width:120}">用户名</th>
             <th lay-data="{field:'realName', width:120}">姓名</th>
             <th lay-data="{field:'mobile', width:120}">手机号</th>
@@ -54,13 +52,15 @@
 </script>
 
 <script>
+    var reloadForm;
+
     layui.use(['table'],
         function () {
             var table = layui.table;
             var $ = layui.$;
             var layer = layui.layer;
 
-            var reloadForm = function () {
+            reloadForm = function () {
                 var formParams = $("#form_userSearch").formSerialize();
 
                 table.reload('table_userlist',
