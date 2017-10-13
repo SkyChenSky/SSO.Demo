@@ -75,7 +75,7 @@
 
             //添加按钮
             $('#form-toolBar #btn_add').on('click', function () {
-                $.openLayer('/user/add', null, '添加用户');
+                $.openLayer('/user/AddOrEdit', null, '添加用户');
             });
 
             //批量删除按钮
@@ -90,7 +90,7 @@
 
                 var userIds = [];
                 for (var i = 0; i < data.length; i++) {
-                    userIds.push(data[i].userId);
+                    userIds.push(data[i].sysUserId);
                 }
 
                 $.confirmDelete('/user/BatchDelete', { userIds: userIds }, reloadForm);
@@ -103,14 +103,14 @@
 
             //编辑
             var editEvent = function (userId) {
-                $.openLayer('/user/add', { userId: userId }, '编辑用户');
+                $.openLayer('/user/AddOrEdit', { userId: userId }, '编辑用户');
             }
 
             //监听表格工具栏
             table.on('tool(user-container)',
                 function (obj) {
                     var data = obj.data;
-                    var userId = data.userId;
+                    var userId = data.sysUserId;
                     if (obj.event === 'del') {
                         deleteEvent(userId);
                     } else if (obj.event === 'edit') {

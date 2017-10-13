@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SSO.Demo.Service.Context;
+using SSO.Demo.Service.Service;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
@@ -16,12 +17,12 @@ namespace SSO.Demo.Web1.Controllers
     public class AccountController : BaseController
     {
         #region 初始化
-        private readonly SkyChenContext _skyChenContext;
+        private readonly UserService _userService;
 
-        public AccountController(SkyChenContext skyChenContext)
+        public AccountController(UserService userService)
         {
-            _skyChenContext = skyChenContext;
-        } 
+            _userService = userService;
+        }
         #endregion
 
         #region 登录
@@ -34,17 +35,19 @@ namespace SSO.Demo.Web1.Controllers
         [HttpPost]
         public IActionResult Login(LoginParams loginParams)
         {
-            var loginSuccessUser = _skyChenContext.SysUser.FirstOrDefault(a =>
-                a.UserName == loginParams.UserName && a.Password == loginParams.Password);
+            var result = _userService.CheckPassword(loginParams.UserName, loginParams.Password);
 
-            if (loginSuccessUser != null)
+            if (result.TData != null)
             {
-                SignIn(new LoginUser { LoginDateTime = DateTime.Now, UserId = loginSuccessUser.SysUserId, UserName = loginSuccessUser.UserName });
-
-                return Json(ServiceResult.IsSuccess("登录成功"));
+                SignIn(new LoginUser
+                {
+                    LoginDateTime = DateTime.Now,
+                    UserId = result.TData.SysUserId,
+                    UserName = result.TData.UserName
+                });
             }
 
-            return Json(ServiceResult.IsFailed("帐号或密码错误"));
+            return Json(result);
         }
         #endregion
 
@@ -54,7 +57,7 @@ namespace SSO.Demo.Web1.Controllers
         {
             SignOut();
             return RedirectToAction("Login", "Account");
-        } 
+        }
         #endregion
 
         #region 私有方法

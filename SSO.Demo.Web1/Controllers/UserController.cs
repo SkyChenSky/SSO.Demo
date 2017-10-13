@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SSO.Demo.Service.Entity;
 using SSO.Demo.Service.Enums;
-using SSO.Demo.Service.Model;
 using SSO.Demo.Service.Service;
+using SSO.Demo.Service.Service.Model.UserService;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
@@ -16,13 +17,16 @@ namespace SSO.Demo.Web1.Controllers
     [Authorize]
     public class UserController : BaseController
     {
+        #region 初始化
         private readonly UserService _userService;
 
         public UserController(UserService userService)
         {
             _userService = userService;
         }
+        #endregion
 
+        #region 列表页
         public IActionResult Index()
         {
             return View();
@@ -72,39 +76,39 @@ namespace SSO.Demo.Web1.Controllers
 
             return PageListResult(result);
         }
+        #endregion
 
+        #region 编辑
         [HttpGet]
-        public IActionResult Add(string userId)
+        public IActionResult AddOrEdit(string userId)
         {
             var user = _userService.GetByUserId(userId);
             if (user == null)
                 return View();
 
-            var viewModel = new UserParams
-            {
-                SysUserId = user.SysUserId,
-                UserName = user.UserName,
-                Password = user.Password
-            };
+            var viewModel = user.ToDto<SysUser, UserParams>();
+            viewModel.Password = "";
             return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Add(UserParams userParams)
         {
-            var user = new SysUser
-            {
-                CreateDateTime = DateTime.Now,
-                SysUserId = Guid.NewGuid().ToString("N"),
-                Password = userParams.Password,
-                UserName = userParams.UserName
-            };
-
-            var result = _userService.Add(user);
+            var result = _userService.Add(userParams.ToDto<UserParams, UserAddAndEditModel>());
 
             return Json(result);
         }
 
+        [HttpPost]
+        public IActionResult Edit(UserParams userParams)
+        {
+            var result = _userService.Edit(userParams.ToDto<UserParams, UserAddAndEditModel>());
+
+            return Json(result);
+        }
+        #endregion
+
+        #region 删除
         [HttpPost]
         public IActionResult Delete(string userId)
         {
@@ -120,5 +124,6 @@ namespace SSO.Demo.Web1.Controllers
 
             return Json(result);
         }
+        #endregion
     }
 }
