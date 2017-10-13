@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = Model != null && Model.IsEdit ? "编辑角色" : "添加角色";
+    Layout = null;
+}
+@using SSO.Demo.Web1.Model.Role
+@model RoleFormParams
+<div class="site-demo site-demo-body">
+    <div class="layui-main" style="width: 550px">
+        <postform id="form-role-add" asp-action='@(Model!=null && Model.IsEdit?"edit":"add")' asp-controller="Role">
+            <input asp-for="SysRoleId" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色名</label>
+                <editor asp-for="RoleName" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="RoleName" />
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="submit" lay-submit="" lay-filter="btn-submit">提交</button>
+                </div>
+            </div>
+        </postform>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, $ = layui.$;
+
+        //监听提交
+        form.on('submit(btn-submit)', function (data) {
+            $.confirmEdit("#form-role-add", data.field, parent.reloadForm);
+            return false;
+        });
+    });
+</script>

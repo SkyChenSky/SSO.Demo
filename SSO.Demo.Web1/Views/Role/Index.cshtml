@@ -1,0 +1,121 @@
+﻿@{
+    ViewData["Title"] = "角色列表";
+}
+@using SSO.Demo.Web1.Model.Role
+@model PageListParam<RoleListParam>
+
+<form id="form_userSearch" class="layui-form layui-form-pane">
+    <editor asp-for="Params.RoleName" input-display="LayuiInline" />
+    <dropdownlist asp-for="Params.RoleStatus" input-display="LayuiInline" asp-data="typeof(ERoleStatus)" defaultText="请选择角色状态" />
+    <datetimepicker asp-for="Params.BeganCreateDateTime" input-display="LayuiInline" />
+    <datetimepicker asp-for="Params.EndCreateDateTime" input-display="LayuiInline" />
+    <div class="layui-inline">
+        <input id="btn_search" class="layui-btn" value="搜索" type="button" />
+    </div>
+    <div class="layui-inline">
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+
+<div id="form-toolBar" class="layui-table">
+    <div class="layui-inline">
+        <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
+    </div>
+    <div class="layui-inline">
+        <button id="btn_batchDelete" type="button" class="layui-btn layui-btn-danger">删除</button>
+    </div>
+</div>
+
+<table class="layui-table" lay-data="{height:'473px',limit: 10,url:'/role/list', page:true, id:'table_rolelist'}" lay-filter="user-container">
+    <thead>
+        <tr>
+            <th lay-data="{ checkbox: true,fixed: true}"></th>
+            <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
+            <th lay-data="{field:'roleName', width:150}">角色名</th>
+            <th lay-data="{field:'roleStatus', width:100}">状态</th>
+            <th lay-data="{field:'createDateTime', width:180}">创建时间</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/html" id="toolBar">
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script>
+    var reloadForm;
+
+    layui.use(['table'],
+        function () {
+            var table = layui.table;
+            var $ = layui.$;
+            var layer = layui.layer;
+
+            reloadForm = function () {
+                var formParams = $("#form_userSearch").formSerialize();
+
+                table.reload('table_rolelist',
+                    {
+                        where: formParams
+                    });
+            }
+
+            //查询按钮
+            $('#form_userSearch #btn_search').on('click',
+                reloadForm);
+
+            //添加按钮
+            $('#form-toolBar #btn_add').on('click', function () {
+                $.openLayer('/role/AddOrEdit', null, '添加用户');
+            });
+
+            //批量删除按钮
+            $('#form-toolBar #btn_batchDelete').on('click', function () {
+                var checkStatus = table.checkStatus('table_rolelist');
+                var data = checkStatus.data;
+
+                if (data.length <= 0) {
+                    layer.alert('请选择需要删除的数据！');
+                    return;
+                }
+
+                var roleIds = [];
+                for (var i = 0; i < data.length; i++) {
+                    roleIds.push(data[i].sysUserId);
+                }
+
+                $.confirmDelete('/role/BatchDelete', { roleIds: roleIds }, reloadForm);
+            });
+
+            //删除
+            var deleteEvent = function (roleId) {
+                $.confirmDelete('/role/delete', { roleId: roleId }, reloadForm);
+            }
+
+            //编辑
+            var editEvent = function (roleId) {
+                $.openLayer('/role/AddOrEdit', { roleId: roleId }, '编辑用户');
+            }
+
+            //监听表格工具栏
+            table.on('tool(user-container)',
+                function (obj) {
+                    var data = obj.data;
+                    var roleId = data.sysRoleId;
+
+                    if (obj.event === 'del') {
+                        deleteEvent(roleId);
+                    } else if (obj.event === 'edit') {
+                        editEvent(roleId);
+                    }
+                });
+        });
+
+    layui.use('form', function () {
+        {
+            var form = layui.form;
+            form.render();
+        }
+    });
+</script>

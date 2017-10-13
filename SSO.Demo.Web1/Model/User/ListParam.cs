@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using SSO.Demo.Service.Enums;
 
 namespace SSO.Demo.Web1.Model.User
 {

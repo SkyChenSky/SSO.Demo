@@ -58,8 +58,4 @@
     <ProjectReference Include="..\SSO.Demo.Toolkits\SSO.Demo.Toolkits.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Instrumentation\" />
-  </ItemGroup>
-
 </Project>

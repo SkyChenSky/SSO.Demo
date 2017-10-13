@@ -10,6 +10,7 @@ using SSO.Demo.Service.Service;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
+using SSO.Demo.Web1.Instrumentation;
 using SSO.Demo.Web1.Model.Home;
 
 namespace SSO.Demo.Web1.Controllers
