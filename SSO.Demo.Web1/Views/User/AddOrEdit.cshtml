@@ -10,23 +10,28 @@
             <input asp-for="SysUserId" type="hidden" />
             <div class="layui-form-item">
                 <label class="layui-form-label">用户名</label>
-                <editor asp-for="UserName" input-display="LayuiInputInline"/>
+                <editor asp-for="UserName" input-display="LayuiInputInline" />
+                @Html.ValidationMessageFor(a => a.UserName)
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">密码</label>
                 <editor asp-for="Password" input-display="LayuiInputInline" type="password" />
+                @Html.ValidationMessageFor(a => a.Password)
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">姓名</label>
                 <editor asp-for="RealName" input-display="LayuiInputInline" />
+                @Html.ValidationMessageFor(a => a.RealName)
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">Email</label>
                 <editor asp-for="Email" input-display="LayuiInputInline" />
+                @Html.ValidationMessageFor(a => a.Email)
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label">手机号</label>
                 <editor asp-for="Mobile" input-display="LayuiInputInline" />
+                @Html.ValidationMessageFor(a => a.Mobile)
             </div>
             <div class="layui-form-item">
                 <div class="layui-input-block">
