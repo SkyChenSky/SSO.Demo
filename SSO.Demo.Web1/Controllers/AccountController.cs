@@ -28,12 +28,14 @@ namespace SSO.Demo.Web1.Controllers
 
         #region 登录
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Login(LoginParams loginParams)
         {
             var result = _userService.CheckPassword(loginParams.UserName, loginParams.Password);
@@ -53,7 +55,6 @@ namespace SSO.Demo.Web1.Controllers
         #endregion
 
         #region 注销
-        [Authorize]
         public IActionResult Logout()
         {
             SignOut();

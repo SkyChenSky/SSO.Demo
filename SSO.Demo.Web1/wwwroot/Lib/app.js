@@ -43,7 +43,7 @@
                     });
             });
     },
-    confirmEdit: function (formSelector, data, reload) {
+    confirmEdit: function (formSelector, params, reload) {
         var $form = $(formSelector);
         var isvaild = $form.valid();
         if (!isvaild)
@@ -54,7 +54,7 @@
                 var action = $form.prop("action");
 
                 $.post(action,
-                    data,
+                    params,
                     function (result) {
                         if (result.success) {
                             layer.closeAll();
@@ -84,6 +84,32 @@ jQuery.fn.extend({
             }
         });
         return data;
+    }
+});
+
+jQuery.fn.extend({
+    'bindSelectData': function (url, value) {
+        var $self = $(this);
+        if (!$self.is('select')) {
+            throw new Error('bindSelectData\'s extension requires select tag');
+        }
+
+        $.getJSON(url, { value: value }).done(function (d) {
+            var html = "";
+
+            if (d && d.length > 0) {
+                $.each(d, function (i, v) {
+                    html += '<option ' + (v.selected === true ? 'selected="selected"' : '') + ' value="' + v.value + '">' + v.text + '</option>';
+                });
+            }
+
+            $self.append(html);
+
+            layui.use('form', function () {
+                var form = layui.form;
+                form.render('select');
+            });
+        });
     }
 });
 

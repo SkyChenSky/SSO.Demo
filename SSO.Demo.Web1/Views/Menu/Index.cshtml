@@ -1,0 +1,103 @@
+﻿@{
+    ViewData["Title"] = "菜单列表";
+}
+
+<div id="form-toolBar" class="layui-table">
+    <div class="layui-inline">
+        <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
+    </div>
+    <div class="layui-inline">
+        <button id="btn_batchDelete" type="button" class="layui-btn layui-btn-danger">删除</button>
+    </div>
+    <div class="layui-inline">
+        <input id="btn_search" class="layui-btn" value="搜索" type="button" />
+    </div>
+</div>
+
+<table class="layui-table" lay-data="{height:'473px',limit: 10,url:'/menu/list', id:'table_menulist'}" lay-filter="menu-container">
+    <thead>
+        <tr>
+            <th lay-data="{ checkbox: true,fixed: true}"></th>
+            <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
+            <th lay-data="{field:'menuName', width:200}">角色名</th>
+            <th lay-data="{field:'url', width:150}">url</th>
+            <th lay-data="{field:'sort', width:100}">序号</th>
+            <th lay-data="{field:'createDateTime', width:180}">创建时间</th>
+        </tr>
+    </thead>
+</table>
+
+<script type="text/html" id="toolBar">
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script>
+    var reloadForm;
+
+    layui.use(['table'],
+        function () {
+            var table = layui.table;
+            var $ = layui.$;
+            var layer = layui.layer;
+
+            reloadForm = function () {
+
+                table.reload('table_menulist',
+                    {
+                        where: null
+                    });
+            }
+
+            //查询按钮
+            $('#form-toolBar #btn_search').on('click',
+                reloadForm);
+
+            //添加按钮
+            $('#form-toolBar #btn_add').on('click', function () {
+                $.openLayer('/Menu/AddOrEdit', null, '添加用户');
+            });
+
+            //批量删除按钮
+            $('#form-toolBar #btn_batchDelete').on('click', function () {
+                var checkStatus = table.checkStatus('table_menulist');
+                var data = checkStatus.data;
+
+                if (data.length <= 0) {
+                    layer.alert('请选择需要删除的数据！');
+                    return;
+                }
+
+                var menuIds = [];
+                for (var i = 0; i < data.length; i++) {
+                    menuIds.push(data[i].sysMenuId);
+                }
+
+                $.confirmDelete('/Menu/BatchDelete', { menuIds: menuIds }, reloadForm);
+            });
+
+            //删除
+            var deleteEvent = function (menuId) {
+                $.confirmDelete('/Menu/Delete', { menuId: menuId }, reloadForm);
+            }
+
+            //编辑
+            var editEvent = function (menuId) {
+                $.openLayer('/Menu/AddOrEdit', { menuId: menuId }, '编辑用户');
+            }
+
+            //监听表格工具栏
+            table.on('tool(menu-container)',
+                function (obj) {
+                    var data = obj.data;
+                    var menuId = data.sysMenuId;
+
+                    if (obj.event === 'del') {
+                        deleteEvent(menuId);
+                    } else if (obj.event === 'edit') {
+                        editEvent(menuId);
+                    }
+                });
+        });
+
+</script>

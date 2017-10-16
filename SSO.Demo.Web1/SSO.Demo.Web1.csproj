@@ -17,6 +17,7 @@
     <Compile Remove="Instrumentation\HttpContextExtension.cs" />
     <Compile Remove="Instrumentation\StaticHttpContext.cs" />
     <Compile Remove="Instrumentation\StaticHttpContextExtensions.cs" />
+    <Compile Remove="Model\Menu\MenuListParam.cs" />
   </ItemGroup>
 
   <ItemGroup>
