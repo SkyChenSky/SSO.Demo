@@ -56,6 +56,23 @@ namespace SSO.Demo.Service.Service
             return menuListModel;
         }
 
+        public List<ScrollMenuModel> ToListForScroll()
+        {
+            var menuList = _sysMenu.OrderBy(a => a.Sort).ThenBy(a => a.CreateDateTime).ToList();
+
+            return Loop2(menuList, null);
+        }
+
+        private List<ScrollMenuModel> Loop2(List<SysMenu> sysMenus, string parentId)
+        {
+            return sysMenus.Where(a => a.ParentId == parentId).Select(a => new ScrollMenuModel
+            {
+                Url = a.Url,
+                MenuName = a.MenuName,
+                Children = Loop2(sysMenus, a.SysMenuId)
+            }).ToList();
+        }
+
         public SysMenu GetByMenuId(string sysMenuId)
         {
             return sysMenuId.IsNullOrEmpty() ? null : _sysMenu.FirstOrDefault(a => a.SysMenuId == sysMenuId);

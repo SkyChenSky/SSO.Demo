@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿@model SSO.Demo.Web1.Model.Home.HomeModel
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,7 +28,7 @@
 
         <div class="layui-side layui-bg-black">
             <div class="layui-side-scroll">
-                @Html.Partial("~/Views/Shared/_Scroll.cshtml")
+                @Html.Partial("~/Views/Shared/_Scroll.cshtml", Model)
             </div>
         </div>
 
@@ -61,22 +61,24 @@
                         var title = $(this).text();
                         var url = $(this).data().url;
 
-                        var isOpen = $('.layui-tab-title li[lay-id="' + title + '"]').length;
-                        if (!isOpen) {
-                            var loadContent = url ? $.ajax({
-                                url: url,
-                                type: "Get",
-                                async: false
-                            }).responseText : "";
+                        if (url) {
+                            var isOpen = $('.layui-tab-title li[lay-id="' + title + '"]').length;
+                            if (!isOpen) {
+                                var loadContent = $.ajax({
+                                    url: url,
+                                    type: "Get",
+                                    async: false
+                                }).responseText;
 
-                            element.tabAdd('demo',
-                                {
-                                    title: title,
-                                    content: loadContent,
-                                    id: title
-                                });
+                                element.tabAdd('demo',
+                                    {
+                                        title: title,
+                                        content: loadContent,
+                                        id: title
+                                    });
+                            }
+                            element.tabChange('demo', title);
                         }
-                        element.tabChange('demo', title);
                     });
             });
     </script>
