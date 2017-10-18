@@ -4,7 +4,7 @@
 @using SSO.Demo.Web1.Model.User
 @model PageListParam<ListParam>
 
-<form id="form_userSearch" class="layui-form layui-form-pane">
+<form id="user-form-search" class="layui-form layui-form-pane">
     <editor asp-for="Params.UserName" placeholder="用户名" input-display="LayuiInline" />
     <editor asp-for="Params.RealName" placeholder="姓名" input-display="LayuiInline" />
     <editor asp-for="Params.Mobile" placeholder="手机号" input-display="LayuiInline" />
@@ -21,7 +21,7 @@
     </div>
 </form>
 
-<div id="form-toolBar" class="layui-table">
+<div id="user-form-toolBar" class="layui-table">
     <div class="layui-inline">
         <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
     </div>
@@ -30,23 +30,10 @@
     </div>
 </div>
 
-<table class="layui-table" lay-data="{height:'473px',limit: 10,url:'/user/list', page:true, id:'table_userlist'}" lay-filter="user-container">
-    <thead>
-        <tr>
-            <th lay-data="{ checkbox: true,fixed: true}"></th>
-            <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
-            <th lay-data="{field:'userName', width:120}">用户名</th>
-            <th lay-data="{field:'realName', width:120}">姓名</th>
-            <th lay-data="{field:'mobile', width:120}">手机号</th>
-            <th lay-data="{field:'email', width:200}">Email</th>
-            <th lay-data="{field:'userType', width:120}">用户类型</th>
-            <th lay-data="{field:'userStatus', width:100}">状态</th>
-            <th lay-data="{field:'createDateTime', width:180}">创建时间</th>
-        </tr>
-    </thead>
-</table>
 
-<script type="text/html" id="toolBar">
+<table id="user-table" lay-filter="user-container"></table>
+
+<script type="text/html" id="user-toolBar">
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
 </script>
@@ -54,14 +41,34 @@
 <script>
     var reloadForm;
 
-    layui.use(['table'],
+    layui.use('table',
         function () {
             var table = layui.table;
             var $ = layui.$;
             var layer = layui.layer;
 
+            table.render({
+                elem: '#user-table',
+                id: 'table_userlist',
+                url: '/user/list',
+                height: 473,
+                cols: [[
+                    { checkbox: true, fixed: true },
+                    { title: '操作', fixed: true, width: 160, align: 'center', toolbar: '#user-toolBar' },
+                    { field: 'userName', title: '用户名', width: 200 },
+                    { field: 'realName', title: '姓名', width: 120 },
+                    { field: 'mobile', title: '手机号', width: 120 },
+                    { field: 'email', title: 'Email', width: 200 },
+                    { field: 'userType', title: '用户类型', width: 120 },
+                    { field: 'userStatus', title: '状态', width: 100 },
+                    { field: 'createDateTime', title: '创建时间', width: 180 }
+                ]]
+                , page: true
+                , limit: 10
+            });
+
             reloadForm = function () {
-                var formParams = $("#form_userSearch").formSerialize();
+                var formParams = $("#user-form-search").formSerialize();
 
                 table.reload('table_userlist',
                     {
@@ -70,16 +77,16 @@
             }
 
             //查询按钮
-            $('#form_userSearch #btn_search').on('click',
+            $('#user-form-search #btn_search').on('click',
                 reloadForm);
 
             //添加按钮
-            $('#form-toolBar #btn_add').on('click', function () {
+            $('#user-form-toolBar #btn_add').on('click', function () {
                 $.openLayer('/user/AddOrEdit', null, '添加用户');
             });
 
             //批量删除按钮
-            $('#form-toolBar #btn_batchDelete').on('click', function () {
+            $('#user-form-toolBar #btn_batchDelete').on('click', function () {
                 var checkStatus = table.checkStatus('table_userlist');
                 var data = checkStatus.data;
 

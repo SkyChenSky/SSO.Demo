@@ -44,6 +44,9 @@ namespace SSO.Demo.Web1.Controllers
             if (!listParam.UserId.IsNullOrEmpty())
                 where = where.And(a => a.SysUserId == listParam.UserId);
 
+            if (!listParam.Mobile.IsNullOrEmpty())
+                where = where.And(a => a.Mobile.StartsWith(listParam.Mobile));
+
             if (!listParam.Email.IsNullOrEmpty())
                 where = where.And(a => a.Email.StartsWith(listParam.Email));
 
