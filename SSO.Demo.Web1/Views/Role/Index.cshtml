@@ -26,8 +26,7 @@
     </div>
 </div>
 
-<table id="role-table" lay-filter="role-container"></table>
-
+<datatable id="role-table" multiple="true" ColsModel="typeof(RoleTableList)" asp-action="List" asp-controller="Role" lay-filter="role-container" toolbar="role-toolBar" />
 <script type="text/html" id="role-toolBar">
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
@@ -45,27 +44,11 @@
             reloadForm = function () {
                 var formParams = $("#role-form-search").formSerialize();
 
-                table.reload('table-rolelist',
+                table.reload('role-table',
                     {
                         where: formParams
                     });
             }
-
-            table.render({
-                elem: '#role-table',
-                id: 'table-rolelist',
-                url: '/role/list',
-                height: 473,
-                cols: [[
-                    { checkbox: true, fixed: true },
-                    { title: '操作',fixed: true, width: 160, align: 'center', toolbar: '#role-toolBar' },
-                    { title: '角色名',field: 'roleName', width: 150 },
-                    { title: '状态',field: 'roleStatus', width: 100 },
-                    { title: '创建时间',field: 'createDateTime', width: 180 }
-                ]]
-                , page: true
-                , limit: 10
-            });
 
             //查询按钮
             $('#role-form-search #btn_search').on('click',
@@ -78,7 +61,7 @@
 
             //批量删除按钮
             $('#role-form-toolBar #btn_batchDelete').on('click', function () {
-                var checkStatus = table.checkStatus('table-rolelist');
+                var checkStatus = table.checkStatus('role-table');
                 var data = checkStatus.data;
 
                 if (data.length <= 0) {

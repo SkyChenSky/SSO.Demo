@@ -1,7 +1,7 @@
 ﻿@{
     ViewData["Title"] = "菜单列表";
 }
-
+@using SSO.Demo.Web1.Model.Menu
 <div id="form-toolBar" class="layui-table">
     <div class="layui-inline">
         <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
@@ -14,20 +14,9 @@
     </div>
 </div>
 
-<table class="layui-table" lay-data="{height:'473px',limit: 10,url:'/menu/list', id:'table_menulist'}" lay-filter="menu-container">
-    <thead>
-        <tr>
-            <th lay-data="{ checkbox: true,fixed: true}"></th>
-            <th lay-data="{fixed: true, width:160, align:'center', toolbar: '#toolBar'}">操作</th>
-            <th lay-data="{field:'menuName', width:200}">角色名</th>
-            <th lay-data="{field:'url', width:150}">url</th>
-            <th lay-data="{field:'sort', width:100}">序号</th>
-            <th lay-data="{field:'createDateTime', width:180}">创建时间</th>
-        </tr>
-    </thead>
-</table>
+<datatable id="menu-table" page="false" multiple="true" ColsModel="typeof(MenuTableList)" asp-action="List" asp-controller="Menu" lay-filter="menu-container" toolbar="menu-toolBar" />
 
-<script type="text/html" id="toolBar">
+<script type="text/html" id="menu-toolBar">
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
 </script>
@@ -43,7 +32,7 @@
 
             reloadForm = function () {
 
-                table.reload('table_menulist',
+                table.reload('menu-table',
                     {
                         where: null
                     });
@@ -60,7 +49,7 @@
 
             //批量删除按钮
             $('#form-toolBar #btn_batchDelete').on('click', function () {
-                var checkStatus = table.checkStatus('table_menulist');
+                var checkStatus = table.checkStatus('menu-table');
                 var data = checkStatus.data;
 
                 if (data.length <= 0) {

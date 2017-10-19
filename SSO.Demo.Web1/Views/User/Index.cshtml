@@ -30,9 +30,7 @@
     </div>
 </div>
 
-
-<table id="user-table" lay-filter="user-container"></table>
-
+<datatable id="table_userlist" multiple="true" ColsModel="typeof(UserTableList)" asp-action="List" asp-controller="User" lay-filter="user-container" toolbar="user-toolBar" />
 <script type="text/html" id="user-toolBar">
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
     <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
@@ -46,26 +44,6 @@
             var table = layui.table;
             var $ = layui.$;
             var layer = layui.layer;
-
-            table.render({
-                elem: '#user-table',
-                id: 'table_userlist',
-                url: '/user/list',
-                height: 473,
-                cols: [[
-                    { checkbox: true, fixed: true },
-                    { title: '操作', fixed: true, width: 160, align: 'center', toolbar: '#user-toolBar' },
-                    { field: 'userName', title: '用户名', width: 200 },
-                    { field: 'realName', title: '姓名', width: 120 },
-                    { field: 'mobile', title: '手机号', width: 120 },
-                    { field: 'email', title: 'Email', width: 200 },
-                    { field: 'userType', title: '用户类型', width: 120 },
-                    { field: 'userStatus', title: '状态', width: 100 },
-                    { field: 'createDateTime', title: '创建时间', width: 180 }
-                ]]
-                , page: true
-                , limit: 10
-            });
 
             reloadForm = function () {
                 var formParams = $("#user-form-search").formSerialize();
