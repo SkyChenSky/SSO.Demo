@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace SSO.Demo.Web1
+namespace SSO.Demo.Sso
 {
     public class Program
     {

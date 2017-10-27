@@ -7,10 +7,10 @@ using SSO.Demo.Service.Service;
 using SSO.Demo.Service.Service.Model.MenuService;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Model;
-using SSO.Demo.Web1.Instrumentation;
-using SSO.Demo.Web1.Model.Menu;
+using SSO.Demo.Web2.Instrumentation;
+using SSO.Demo.Web2.Model.Menu;
 
-namespace SSO.Demo.Web1.Controllers
+namespace SSO.Demo.Web2.Controllers
 {
     public class MenuController : BaseController
     {

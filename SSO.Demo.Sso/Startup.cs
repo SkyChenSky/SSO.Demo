@@ -9,7 +9,7 @@ using SSO.Demo.Toolkits.Attribute;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 
-namespace SSO.Demo.Web1
+namespace SSO.Demo.Sso
 {
     public class Startup
     {

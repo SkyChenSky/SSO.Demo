@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using SSO.Demo.Web2;
 
-namespace SSO.Demo.Web1
+namespace SSO.Demo.Web2
 {
     public class Program
     {

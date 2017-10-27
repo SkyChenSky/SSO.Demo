@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using SSO.Demo.Toolkits.Extension;
 
-namespace SSO.Demo.Web1.Model.Menu
+namespace SSO.Demo.Sso.Model.Menu
 {
     public class MenuFormParams
     {

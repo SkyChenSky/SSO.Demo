@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="log4net\**" />
+    <Content Remove="log4net\**" />
+    <EmbeddedResource Remove="log4net\**" />
+    <None Remove="log4net\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="FormsAuthTicketDataFormat.cs" />
+    <Compile Remove="Instrumentation\DateTimePickerTag.cs" />
+    <Compile Remove="Instrumentation\HttpContextExtension.cs" />
+    <Compile Remove="Instrumentation\StaticHttpContext.cs" />
+    <Compile Remove="Instrumentation\StaticHttpContextExtensions.cs" />
+    <Compile Remove="Model\Menu\MenuListParam.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Shared\_FormLayout.cshtml" />
+    <Content Remove="wwwroot\Lib\bootstrap.js" />
+    <Content Remove="wwwroot\Lib\bootstrap.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\layui\font\iconfont.svg" />
+    <None Include="wwwroot\layui\layui.all.js" />
+    <None Include="wwwroot\layui\layui.js" />
+    <None Include="wwwroot\layui\lay\modules\carousel.js" />
+    <None Include="wwwroot\layui\lay\modules\code.js" />
+    <None Include="wwwroot\layui\lay\modules\element.js" />
+    <None Include="wwwroot\layui\lay\modules\flow.js" />
+    <None Include="wwwroot\layui\lay\modules\form.js" />
+    <None Include="wwwroot\layui\lay\modules\jquery.js" />
+    <None Include="wwwroot\layui\lay\modules\laydate.js" />
+    <None Include="wwwroot\layui\lay\modules\layedit.js" />
+    <None Include="wwwroot\layui\lay\modules\layer.js" />
+    <None Include="wwwroot\layui\lay\modules\laypage.js" />
+    <None Include="wwwroot\layui\lay\modules\laytpl.js" />
+    <None Include="wwwroot\layui\lay\modules\mobile.js" />
+    <None Include="wwwroot\layui\lay\modules\table.js" />
+    <None Include="wwwroot\layui\lay\modules\tree.js" />
+    <None Include="wwwroot\layui\lay\modules\upload.js" />
+    <None Include="wwwroot\layui\lay\modules\util.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SSO.Demo.Service\SSO.Demo.Service.csproj" />
+    <ProjectReference Include="..\SSO.Demo.Toolkits\SSO.Demo.Toolkits.csproj" />
+  </ItemGroup>
+
+</Project>

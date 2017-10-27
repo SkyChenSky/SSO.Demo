@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "添加用户";
+    Layout = null;
+}
+@using SSO.Demo.Web2.Model.User
+@model SSO.Demo.Web2.Model.User.UserParams
+<div class="site-demo site-demo-body">
+    <div class="layui-main" style="width: 550px">
+        <postform id="form-user-add" asp-action='@(Model!=null && Model.IsEdit?"edit":"add")' asp-controller="User">
+            <input asp-for="SysUserId" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名</label>
+                <editor asp-for="UserName" input-display="LayuiInputInline" disabled="@(Model != null &&Model.IsEdit)" />
+                <ValidationMessage asp-validation-for="UserName" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">密码</label>
+                <editor asp-for="Password" input-display="LayuiInputInline" type="password" />
+                <ValidationMessage asp-validation-for="Password" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">姓名</label>
+                <editor asp-for="RealName" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="RealName" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Email</label>
+                <editor asp-for="Email" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="Email" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">手机号</label>
+                <editor asp-for="Mobile" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="Mobile" />
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="submit" lay-submit="" lay-filter="btn-submit">提交</button>
+                </div>
+            </div>
+        </postform>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, $ = layui.$;
+
+        //监听提交
+        form.on('submit(btn-submit)', function (data) {
+            $.confirmEdit("#form-user-add", data.field, parent.reloadForm);
+            return false;
+        });
+    });
+</script>

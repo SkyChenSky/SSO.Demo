@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "用户列表";
+}
+@using SSO.Demo.Sso.Model.User
+@model PageListParam<SSO.Demo.Sso.Model.User.ListParam>
+
+<form id="user-form-search" class="layui-form layui-form-pane">
+    <editor asp-for="Params.UserName" placeholder="用户名" input-display="LayuiInline" />
+    <editor asp-for="Params.RealName" placeholder="姓名" input-display="LayuiInline" />
+    <editor asp-for="Params.Mobile" placeholder="手机号" input-display="LayuiInline" />
+    <editor asp-for="Params.Email" placeholder="Email" input-display="LayuiInline" />
+    <dropdownlist asp-for="Params.UserType" input-display="LayuiInline" asp-data="typeof(EUserType)" defaultText="请选择用户类型" />
+    <dropdownlist asp-for="Params.UserStatus" input-display="LayuiInline" asp-data="typeof(EUserStatus)" defaultText="请选择用户状态" />
+    <datetimepicker asp-for="Params.BeganCreateDateTime" input-display="LayuiInline" />
+    <datetimepicker asp-for="Params.EndCreateDateTime" input-display="LayuiInline" />
+    <div class="layui-inline">
+        <input id="btn_search" class="layui-btn" value="搜索" type="button" />
+    </div>
+    <div class="layui-inline">
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+
+<div id="user-form-toolBar" class="layui-table">
+    <div class="layui-inline">
+        <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
+    </div>
+    <div class="layui-inline">
+        <button id="btn_batchDelete" type="button" class="layui-btn layui-btn-danger">删除</button>
+    </div>
+</div>
+
+
+<table id="user-table" lay-filter="user-container"></table>
+
+<script type="text/html" id="user-toolBar">
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script>
+    var reloadForm;
+
+    layui.use('table',
+        function () {
+            var table = layui.table;
+            var $ = layui.$;
+            var layer = layui.layer;
+
+            table.render({
+                elem: '#user-table',
+                id: 'table_userlist',
+                url: '/user/list',
+                height: 473,
+                cols: [[
+                    { checkbox: true, fixed: true },
+                    { title: '操作', fixed: true, width: 160, align: 'center', toolbar: '#user-toolBar' },
+                    { field: 'userName', title: '用户名', width: 200 },
+                    { field: 'realName', title: '姓名', width: 120 },
+                    { field: 'mobile', title: '手机号', width: 120 },
+                    { field: 'email', title: 'Email', width: 200 },
+                    { field: 'userType', title: '用户类型', width: 120 },
+                    { field: 'userStatus', title: '状态', width: 100 },
+                    { field: 'createDateTime', title: '创建时间', width: 180 }
+                ]]
+                , page: true
+                , limit: 10
+            });
+
+            reloadForm = function () {
+                var formParams = $("#user-form-search").formSerialize();
+
+                table.reload('table_userlist',
+                    {
+                        where: formParams
+                    });
+            }
+
+            //查询按钮
+            $('#user-form-search #btn_search').on('click',
+                reloadForm);
+
+            //添加按钮
+            $('#user-form-toolBar #btn_add').on('click', function () {
+                $.openLayer('/user/AddOrEdit', null, '添加用户');
+            });
+
+            //批量删除按钮
+            $('#user-form-toolBar #btn_batchDelete').on('click', function () {
+                var checkStatus = table.checkStatus('table_userlist');
+                var data = checkStatus.data;
+
+                if (data.length <= 0) {
+                    layer.alert('请选择需要删除的数据！');
+                    return;
+                }
+
+                var userIds = [];
+                for (var i = 0; i < data.length; i++) {
+                    userIds.push(data[i].sysUserId);
+                }
+
+                $.confirmDelete('/user/BatchDelete', { userIds: userIds }, reloadForm);
+            });
+
+            //删除
+            var deleteEvent = function (userId) {
+                $.confirmDelete('/user/delete', { userid: userId }, reloadForm);
+            }
+
+            //编辑
+            var editEvent = function (userId) {
+                $.openLayer('/user/AddOrEdit', { userId: userId }, '编辑用户');
+            }
+
+            //监听表格工具栏
+            table.on('tool(user-container)',
+                function (obj) {
+                    var data = obj.data;
+                    var userId = data.sysUserId;
+                    if (obj.event === 'del') {
+                        deleteEvent(userId);
+                    } else if (obj.event === 'edit') {
+                        editEvent(userId);
+                    }
+                });
+        });
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

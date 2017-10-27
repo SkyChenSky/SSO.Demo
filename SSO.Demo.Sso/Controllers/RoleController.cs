@@ -5,14 +5,13 @@ using SSO.Demo.Service.Entity;
 using SSO.Demo.Service.Enums;
 using SSO.Demo.Service.Service;
 using SSO.Demo.Service.Service.Model.RoleService;
+using SSO.Demo.Sso.Instrumentation;
+using SSO.Demo.Sso.Model.Role;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
-using SSO.Demo.Web1.Instrumentation;
-using SSO.Demo.Web1.Model.Menu;
-using SSO.Demo.Web1.Model.Role;
 
-namespace SSO.Demo.Web1.Controllers
+namespace SSO.Demo.Sso.Controllers
 {
     public class RoleController : BaseController
     {

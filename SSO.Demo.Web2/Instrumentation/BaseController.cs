@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SSO.Demo.Toolkits.Model;
 
-namespace SSO.Demo.Web1.Instrumentation
+namespace SSO.Demo.Web2.Instrumentation
 {
     [Authorize]
     public class BaseController : Controller

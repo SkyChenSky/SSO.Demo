@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = Model != null && Model.IsEdit ? "编辑菜单" : "添加菜单";
+    Layout = null;
+}
+@using SSO.Demo.Web2.Model.Menu
+@model SSO.Demo.Web2.Model.Menu.MenuFormParams
+<div class="site-demo site-demo-body">
+    <div class="layui-main" style="width: 550px">
+        <postform id="form-menu-add" asp-action='@(Model!=null && Model.IsEdit?"edit":"add")' asp-controller="Menu">
+            <input asp-for="SysMenuId" type="hidden" />
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单名</label>
+                <editor asp-for="MenuName" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="MenuName" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">父菜单</label>
+                <dropdownlist asp-for="ParentId" asp-url="/Menu/GetMenusForSelect" defaultText="请选择父菜单" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">Url</label>
+                <editor asp-for="Url" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="Url" />
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">排序</label>
+                <editor asp-for="Sort" input-display="LayuiInputInline" />
+                <ValidationMessage asp-validation-for="Sort" />
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" type="submit" lay-submit="" lay-filter="btn-submit">提交</button>
+                </div>
+            </div>
+        </postform>
+    </div>
+</div>
+
+<script>
+    layui.use(['form'], function () {
+        var form = layui.form, $ = layui.$;
+
+        //监听提交
+        form.on('submit(btn-submit)', function (data) {
+            $.confirmEdit("#form-menu-add", data.field, parent.reloadForm);
+            return false;
+        });
+    });
+</script>

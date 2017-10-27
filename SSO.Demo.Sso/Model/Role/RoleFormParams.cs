@@ -1,7 +1,7 @@
-﻿using SSO.Demo.Toolkits.Extension;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using SSO.Demo.Toolkits.Extension;
 
-namespace SSO.Demo.Web1.Model.Role
+namespace SSO.Demo.Sso.Model.Role
 {
     public class RoleFormParams
     {

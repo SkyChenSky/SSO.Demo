@@ -1,7 +1,7 @@
 ﻿using System;
 using SSO.Demo.Toolkits.Attribute;
 
-namespace SSO.Demo.Web1.Model.Role
+namespace SSO.Demo.Sso.Model.Role
 {
     public class RoleTableList
     {

@@ -3,9 +3,8 @@ using System.Text;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SSO.Demo.Service.Service.Model.MenuService;
-using SSO.Demo.Web1.Model.Home;
 
-namespace SSO.Demo.Web1.Instrumentation
+namespace SSO.Demo.Web2.Instrumentation
 {
     public static class UiExtension
     {

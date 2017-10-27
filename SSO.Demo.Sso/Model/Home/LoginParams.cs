@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SSO.Demo.Web1.Model.Home
+namespace SSO.Demo.Sso.Model.Home
 {
     public class LoginParams
     {

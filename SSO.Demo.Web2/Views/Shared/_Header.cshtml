@@ -1,0 +1,31 @@
+﻿@{
+    var loginUserData = Context.LoginUserData();
+}
+<div class="layui-logo">陈珙用户管理系统</div>
+<!-- 头部区域（可配合layui已有的水平导航） -->
+<ul class="layui-nav layui-layout-left">
+    <li class="layui-nav-item">
+        <a href="javascript:;">其它系统</a>
+        <dl class="layui-nav-child">
+            <dd><a href="">运营系统</a></dd>
+            <dd><a href="">订单系统</a></dd>
+        </dl>
+    </li>
+</ul>
+<ul class="layui-nav layui-layout-right">
+    @if (loginUserData != null)
+    {
+        <li class="layui-nav-item">
+            <a href="javascript:;">
+                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+                @loginUserData.UserName
+            </a>
+            <dl class="layui-nav-child">
+                <dd><a href="">基本资料</a></dd>
+                <dd><a href="">安全设置</a></dd>
+                <dd><a href="/Account/Logout">退出登录</a></dd>
+            </dl>
+        </li>
+    }
+
+</ul>

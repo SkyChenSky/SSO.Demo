@@ -1,0 +1,108 @@
+﻿@{
+    ViewData["Title"] = "角色列表";
+}
+@using SSO.Demo.Web2.Model.Role
+@model PageListParam<SSO.Demo.Web2.Model.Role.RoleListParam>
+
+<form id="role-form-search" class="layui-form layui-form-pane">
+    <editor asp-for="Params.RoleName" input-display="LayuiInline" />
+    <dropdownlist asp-for="Params.RoleStatus" input-display="LayuiInline" asp-data="typeof(ERoleStatus)" defaultText="请选择角色状态" />
+    <datetimepicker asp-for="Params.BeganCreateDateTime" input-display="LayuiInline" />
+    <datetimepicker asp-for="Params.EndCreateDateTime" input-display="LayuiInline" />
+    <div class="layui-inline">
+        <input id="btn_search" class="layui-btn" value="搜索" type="button" />
+    </div>
+    <div class="layui-inline">
+        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+</form>
+
+<div id="role-form-toolBar" class="layui-table">
+    <div class="layui-inline">
+        <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
+    </div>
+    <div class="layui-inline">
+        <button id="btn_batchDelete" type="button" class="layui-btn layui-btn-danger">删除</button>
+    </div>
+</div>
+
+<datatable id="role-table" multiple="true" ColsModel="typeof(RoleTableList)" asp-action="List" asp-controller="Role" lay-filter="role-container" toolbar="role-toolBar" />
+<script type="text/html" id="role-toolBar">
+    <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-mini" lay-event="del">删除</a>
+</script>
+
+<script>
+    var reloadForm;
+
+    layui.use('table',
+        function () {
+            var table = layui.table;
+            var $ = layui.$;
+            var layer = layui.layer;
+
+            reloadForm = function () {
+                var formParams = $("#role-form-search").formSerialize();
+
+                table.reload('role-table',
+                    {
+                        where: formParams
+                    });
+            }
+
+            //查询按钮
+            $('#role-form-search #btn_search').on('click',
+                reloadForm);
+
+            //添加按钮
+            $('#role-form-toolBar #btn_add').on('click', function () {
+                $.openLayer('/role/AddOrEdit', null, '添加用户');
+            });
+
+            //批量删除按钮
+            $('#role-form-toolBar #btn_batchDelete').on('click', function () {
+                var checkStatus = table.checkStatus('role-table');
+                var data = checkStatus.data;
+
+                if (data.length <= 0) {
+                    layer.alert('请选择需要删除的数据！');
+                    return;
+                }
+
+                var roleIds = [];
+                for (var i = 0; i < data.length; i++) {
+                    roleIds.push(data[i].sysUserId);
+                }
+
+                $.confirmDelete('/role/BatchDelete', { roleIds: roleIds }, reloadForm);
+            });
+
+            //删除
+            var deleteEvent = function (roleId) {
+                $.confirmDelete('/role/delete', { roleId: roleId }, reloadForm);
+            }
+
+            //编辑
+            var editEvent = function (roleId) {
+                $.openLayer('/role/AddOrEdit', { roleId: roleId }, '编辑用户');
+            }
+
+            //监听表格工具栏
+            table.on('tool(role-container)',
+                function (obj) {
+                    var data = obj.data;
+                    var roleId = data.sysRoleId;
+
+                    if (obj.event === 'del') {
+                        deleteEvent(roleId);
+                    } else if (obj.event === 'edit') {
+                        editEvent(roleId);
+                    }
+                });
+        });
+
+    layui.use('form', function () {
+        var form = layui.form;
+        form.render();
+    });
+</script>

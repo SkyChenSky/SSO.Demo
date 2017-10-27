@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SSO.Demo.Web1.Model.User
+namespace SSO.Demo.Sso.Model.User
 {
     public class ListParam
     {

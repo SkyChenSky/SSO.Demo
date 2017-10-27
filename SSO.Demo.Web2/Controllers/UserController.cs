@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +9,10 @@ using SSO.Demo.Service.Service.Model.UserService;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
-using SSO.Demo.Web1.Instrumentation;
-using SSO.Demo.Web1.Model.User;
+using SSO.Demo.Web2.Instrumentation;
+using SSO.Demo.Web2.Model.User;
 
-namespace SSO.Demo.Web1.Controllers
+namespace SSO.Demo.Web2.Controllers
 {
     [Authorize]
     public class UserController : BaseController

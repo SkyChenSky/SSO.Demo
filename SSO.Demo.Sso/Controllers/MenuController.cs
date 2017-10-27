@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SSO.Demo.Service.Entity;
 using SSO.Demo.Service.Service;
 using SSO.Demo.Service.Service.Model.MenuService;
+using SSO.Demo.Sso.Instrumentation;
+using SSO.Demo.Sso.Model.Menu;
 using SSO.Demo.Toolkits.Extension;
 using SSO.Demo.Toolkits.Model;
-using SSO.Demo.Web1.Instrumentation;
-using SSO.Demo.Web1.Model.Menu;
 
-namespace SSO.Demo.Web1.Controllers
+namespace SSO.Demo.Sso.Controllers
 {
     public class MenuController : BaseController
     {
