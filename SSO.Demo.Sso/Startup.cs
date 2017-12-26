@@ -47,6 +47,7 @@ namespace SSO.Demo.Sso
             services.AddDbContext<SkyChenContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SkyChenDatabase")));
 
             services.AddService();
+
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

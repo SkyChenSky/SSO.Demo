@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "系统日志";
+}
+@using SSO.Demo.Sso.Model.SystemLog
+@model PageListParam<SystemLogListParam>
+    <form id="role-form-search" class="layui-form layui-form-pane">
+        <editor asp-for="Params.Content" input-display="LayuiInline" placeholder="查询内容" />
+        <div class="layui-inline">
+            <input id="btn_search" class="layui-btn" value="搜索" type="button" />
+        </div>
+        <div class="layui-inline">
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </form>
+
+    <div id="role-form-toolBar" class="layui-table">
+        <div class="layui-inline">
+            <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
+        </div>
+    </div>
+
+    <datatable id="role-table" multiple="true" ColsModel="typeof(SystemLogList)" asp-action="List" asp-controller="SystemLog" lay-filter="role-container"/>
+
+    <script>
+        var reloadForm;
+
+        layui.use('table',
+            function () {
+                var table = layui.table;
+                var $ = layui.$;
+
+                reloadForm = function () {
+                    var formParams = $("#role-form-search").formSerialize();
+
+                    table.reload('role-table',
+                        {
+                            where: formParams
+                        });
+                }
+
+                //查询按钮
+                $('#role-form-search #btn_search').on('click',
+                    reloadForm);
+
+                //添加按钮
+                $('#role-form-toolBar #btn_add').on('click', function () {
+                    $.openLayer('/SystemLog/Add', null, '添加日志到Mongodb');
+                });
+            });
+
+        layui.use('form', function () {
+            var form = layui.form;
+            form.render();
+        });
+    </script>

@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "菜单列表";
 }
+@using SSO.Demo.Sso.Model.Menu
 <div id="form-toolBar" class="layui-table">
     <div class="layui-inline">
         <button id="btn_add" type="button" class="layui-btn layui-btn-normal">添加</button>
@@ -13,7 +14,7 @@
     </div>
 </div>
 
-<datatable id="menu-table" page="false" multiple="true" asp-action="List" asp-controller="Menu" lay-filter="menu-container" toolbar="menu-toolBar" />
+<datatable id="menu-table" page="false" multiple="true" ColsModel="typeof(MenuTableList)" asp-action="List" asp-controller="Menu" lay-filter="menu-container" toolbar="menu-toolBar" />
 
 <script type="text/html" id="menu-toolBar">
     <a class="layui-btn layui-btn-mini" lay-event="edit">编辑</a>
