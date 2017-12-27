@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 using Nest;
-using SSO.Demo.Service.Entity;
 using SSO.Demo.Sso.Instrumentation;
 using SSO.Demo.Sso.Model.SystemLog;
 using SSO.Demo.Toolkits.Extension;
-using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
 
 namespace SSO.Demo.Sso.Controllers
@@ -38,8 +36,8 @@ namespace SSO.Demo.Sso.Controllers
                     var client = new ElasticClient(settings);
 
                     var qwe = client.Search<object>(a => a.AllIndices()
-                        .AllTypes().From(pageListParam.Limit * pageListParam.Page)
-                        .Size(pageListParam.Limit).Query(q => q.SimpleQueryString(b => b.AllFields().Query(listParam.Content))));
+                        .AllTypes().From(pageListParam.Limit * (pageListParam.Page-1))
+                        .Size(pageListParam.Limit).Query(q => q.QueryString(b => b.AllFields().Query(listParam.Content))));
 
                     var documents = qwe.Documents.Select(a => new SystemLogList { Content = a.ToJson() }).ToList();
                     return PageListResult(new PageListResult(documents, (int)((SearchResponse<object>)qwe).Total));
@@ -57,8 +55,9 @@ namespace SSO.Demo.Sso.Controllers
         {
             var client = new MongoClient("mongodb://192.168.20.80:27017");
 
-            var c = client.GetDatabase(param.DataBaseName).GetCollection<SystemLog>(param.ColletionName);
-            c.InsertOne(new SystemLog { _id = Guid.NewGuid().ToString(), Content = param.Content });
+            var db = client.GetDatabase(param.DataBaseName);
+            var coll = db.GetCollection<SystemLog>(param.ColletionName);
+            coll.InsertOne(new SystemLog { _id = Guid.NewGuid().ToString(), Content = param.Content });
 
             return Json(ServiceResult.IsSuccess("添加成功"));
         }
