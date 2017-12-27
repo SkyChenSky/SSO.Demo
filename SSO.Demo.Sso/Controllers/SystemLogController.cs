@@ -9,6 +9,7 @@ using Nest;
 using SSO.Demo.Sso.Instrumentation;
 using SSO.Demo.Sso.Model.SystemLog;
 using SSO.Demo.Toolkits.Extension;
+using SSO.Demo.Toolkits.Helper;
 using SSO.Demo.Toolkits.Model;
 
 namespace SSO.Demo.Sso.Controllers
@@ -33,13 +34,17 @@ namespace SSO.Demo.Sso.Controllers
             {
                 using (var settings = new ConnectionSettings(connectionPool).DefaultIndex("chengongtestdb"))
                 {
+                    settings.DeadTimeout(TimeSpan.FromMinutes(1));
+                    settings.MaxRetryTimeout(TimeSpan.FromMinutes(1));
+                    settings.ConnectionLimit(100);
+
                     var client = new ElasticClient(settings);
-
                     var qwe = client.Search<object>(a => a.AllIndices()
-                        .AllTypes().From(pageListParam.Limit * (pageListParam.Page-1))
-                        .Size(pageListParam.Limit).Query(q => q.QueryString(b => b.AllFields().Query(listParam.Content))));
+                        .AllTypes().From(pageListParam.Limit * (pageListParam.Page - 1))
+                        .Size(pageListParam.Limit).Query(q => q.Match(b => b.Field("_all").Query(listParam.Content))));
 
-                    var documents = qwe.Documents.Select(a => new SystemLogList { Content = a.ToJson() }).ToList();
+                    var documents = qwe.Hits.Select(a => new SystemLogList { Content = a.Source.ToJson(), Index = a.Index, Type = a.Type }).ToList();
+
                     return PageListResult(new PageListResult(documents, (int)((SearchResponse<object>)qwe).Total));
                 }
             }
